@@ -103,6 +103,7 @@ int main(void)
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_UART_Receive_IT(&huart3, &uartByte, 1);//this triggers only once,uses interrupt and it has to be re-enabled
+  FillArray(RED);
 
   /* USER CODE END 2 */
 
@@ -118,7 +119,7 @@ int main(void)
 	  	imain ++;
 	  	if(imain > 2 )
 	  		imain = 0;
-	 	FillArray(imain);
+//	 	FillArray(imain);
   }
   /* USER CODE END 3 */
 }
@@ -265,6 +266,20 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   HAL_UART_Transmit(&huart3, &uartByte, 1, 100);//echo the received msg to verify that all is good
   HAL_UART_Transmit(&huart3, (uint8_t *)"BP\r\n", 4U, 100);//so as to know it comes from the BP
   HAL_UART_Receive_IT(&huart3, &uartByte, 1);//re-enable the rx int
+
+  if(uartByte == 49)
+	  //1
+	  FillArray(RED);
+
+  if(uartByte == 50)
+	  //2
+	  FillArray(GREEN);
+
+  if(uartByte == 51)
+	  //3
+	  FillArray(BLUE);
+
+
 }
 
 void TLC_Write(uint8_t data[])
