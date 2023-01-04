@@ -103,7 +103,7 @@ int main(void)
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_UART_Receive_IT(&huart3, &uartByte, 1);//this triggers only once,uses interrupt and it has to be re-enabled
-  FillArray(RED);
+  FillArray(BLUE);//it will be red
 
   /* USER CODE END 2 */
 
@@ -267,17 +267,29 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   HAL_UART_Transmit(&huart3, (uint8_t *)"BP\r\n", 4U, 100);//so as to know it comes from the BP
   HAL_UART_Receive_IT(&huart3, &uartByte, 1);//re-enable the rx int
 
+  if(uartByte == 48)
+	  //0
+	  FillArray(0);//BLUE
+
   if(uartByte == 49)
 	  //1
-	  FillArray(RED);
+	  FillArray(1);//GREEN
 
   if(uartByte == 50)
 	  //2
-	  FillArray(GREEN);
+	  FillArray(2);//RED
 
-  if(uartByte == 51)
-	  //3
-	  FillArray(BLUE);
+  if(uartByte == 52)
+	  //4
+	  FillArray(HIGH);
+
+  if(uartByte == 53)
+	  //5
+	  FillArray(MID);
+
+  if(uartByte == 54)
+	  //6
+	  FillArray(LOW);
 
 
 }

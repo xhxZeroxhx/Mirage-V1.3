@@ -56,31 +56,31 @@ void TLC_Update(void)
  */
 void FillArray(uint8_t color)
 {
-	uint8_t position = 0, increment = 3,array_index = 0;
-//	uint16_t intensity = 0x20;//32;
-	switch(color)
-	{
-	case 0:
-		position = 0;
-//		intensity = 0xFFF;//4095;
-		break;
-	case 1:
-		position = 1;
-//		intensity = 0x800;//2048;
-		break;
-	case 2:
-		position = 2;
-//		intensity = 0x400;//1024;
-		break;
-	default:
-		//RGB
-//		increment = 1; // por el momento no lo uso
-		break;
-	}
+	static uint8_t position = 0, increment = 3,array_index = 0;
+	static uint16_t intensity = 4095;
+
+if(color >-1 && color<3)
+{
+	//RGB is not covered by this code
+	position = color;
+
 	for (array_index= 0; array_index<TOTAL_CHANNELS;array_index++)
-		leds[array_index] = 0;//borro todos los valores
+		leds[array_index] = 0;//all previous values are erased
+}
+
+if(color >3 && color<7)
+{
+	if(color == 4)
+		intensity = 4095;
+	if(color == 5)
+		intensity = 1024;
+	if(color == 6)
+		intensity = 32;
+}
+
 
 	for (array_index=position; array_index<TOTAL_CHANNELS;array_index+=increment)
-		leds[array_index] = 4095*1/(position+1);//intensidad tenue
-//		leds[array_index] = intensity;
+//		leds[array_index] = 4095*1/(position+1);//intensidad tenue
+		leds[array_index] = intensity;
+
 }
