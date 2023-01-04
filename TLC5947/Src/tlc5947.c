@@ -54,27 +54,51 @@ void TLC_Update(void)
  * en las últimas posiciones de 65535
  *
  */
-void FillArray(uint8_t color)
+void FillArray(uint8_t colorIntensity)
 {
 	static uint8_t position = 0, increment = 3,array_index = 0;
 	static uint16_t intensity = 4095;
 
-if(color >-1 && color<3)
+	  if(colorIntensity == 48)
+		  //0
+		  colorIntensity = BLUE;//RED
+
+	  if(colorIntensity == 49)
+		  //1
+		  colorIntensity = GREEN;//GREEN
+
+	  if(colorIntensity == 50)
+		  //2
+		  colorIntensity = RED;//BLUE
+
+	  if(colorIntensity == 52)
+		  //4
+		  colorIntensity=HIGH;
+
+	  if(colorIntensity == 53)
+		  //5
+		  colorIntensity=MID;
+
+	  if(colorIntensity == 54)
+		  //6
+		  colorIntensity=LOW;
+
+if(colorIntensity >-1 && colorIntensity<3)
 {
 	//RGB is not covered by this code
-	position = color;
+	position = colorIntensity;
 
 	for (array_index= 0; array_index<TOTAL_CHANNELS;array_index++)
 		leds[array_index] = 0;//all previous values are erased
 }
 
-if(color >3 && color<7)
+if(colorIntensity >3 && colorIntensity<7)
 {
-	if(color == 4)
+	if(colorIntensity == 4)
 		intensity = 4095;
-	if(color == 5)
+	if(colorIntensity == 5)
 		intensity = 1024;
-	if(color == 6)
+	if(colorIntensity == 6)
 		intensity = 32;
 }
 

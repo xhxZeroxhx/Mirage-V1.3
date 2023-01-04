@@ -76,7 +76,7 @@
 /* USER CODE BEGIN PFP */
 void TLC_Write(uint8_t data[]);// prototipo para mandar todo un vector de bytes
 void TLC_Update(void);
-void FillArray(uint8_t color);// prototipo para llenar el array en la prueba de los canales
+void FillArray(uint8_t colorIntensity);// prototipo para llenar el array en la prueba de los canales
 
 /* USER CODE END PFP */
 

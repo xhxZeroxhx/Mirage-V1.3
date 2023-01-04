@@ -51,7 +51,7 @@ UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN PV */
 
-uint8_t uartByte;
+uint8_t uartByte, UARTVal = 0;//val received, val stored
 uint8_t imain=0;
 
 /* USER CODE END PV */
@@ -116,10 +116,10 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  	TLC_Update();//renew PWM
 	  	HAL_Delay(1000);
-	  	imain ++;
-	  	if(imain > 2 )
-	  		imain = 0;
-//	 	FillArray(imain);
+//	  	imain ++;
+//	  	if(imain > 2 )
+//	  		imain = 0;
+	 	FillArray(UARTVal);
   }
   /* USER CODE END 3 */
 }
@@ -267,29 +267,32 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   HAL_UART_Transmit(&huart3, (uint8_t *)"BP\r\n", 4U, 100);//so as to know it comes from the BP
   HAL_UART_Receive_IT(&huart3, &uartByte, 1);//re-enable the rx int
 
-  if(uartByte == 48)
-	  //0
-	  FillArray(0);//BLUE
+  if(uartByte > 47 && uartByte <55)
+	  UARTVal=uartByte;
 
-  if(uartByte == 49)
-	  //1
-	  FillArray(1);//GREEN
-
-  if(uartByte == 50)
-	  //2
-	  FillArray(2);//RED
-
-  if(uartByte == 52)
-	  //4
-	  FillArray(HIGH);
-
-  if(uartByte == 53)
-	  //5
-	  FillArray(MID);
-
-  if(uartByte == 54)
-	  //6
-	  FillArray(LOW);
+//  if(uartByte == 48)
+//	  //0
+//	  FillArray(0);//BLUE
+//
+//  if(uartByte == 49)
+//	  //1
+//	  FillArray(1);//GREEN
+//
+//  if(uartByte == 50)
+//	  //2
+//	  FillArray(2);//RED
+//
+//  if(uartByte == 52)
+//	  //4
+//	  FillArray(HIGH);
+//
+//  if(uartByte == 53)
+//	  //5
+//	  FillArray(MID);
+//
+//  if(uartByte == 54)
+//	  //6
+//	  FillArray(LOW);
 
 
 }
