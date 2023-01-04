@@ -61,50 +61,39 @@ void FillArray(uint8_t colorIntensity)
 
 	  if(colorIntensity == 48)
 		  //0
-		  colorIntensity = BLUE;//RED
+		  position = BLUE;//RED
 
 	  if(colorIntensity == 49)
 		  //1
-		  colorIntensity = GREEN;//GREEN
+		  position = GREEN;//GREEN
 
 	  if(colorIntensity == 50)
 		  //2
-		  colorIntensity = RED;//BLUE
+		  position = RED;//BLUE
 
 	  if(colorIntensity == 52)
-		  //4
-		  colorIntensity=HIGH;
+		  //HIGH
+		  intensity = 4095;
 
 	  if(colorIntensity == 53)
-		  //5
-		  colorIntensity=MID;
+		  //MID
+		  intensity = 1024;
 
 	  if(colorIntensity == 54)
-		  //6
-		  colorIntensity=LOW;
+		  //LOW
+		  intensity = 32;
 
-if(colorIntensity >-1 && colorIntensity<3)
+if(position >-1 && position<3)
 {
-	//RGB is not covered by this code
-	position = colorIntensity;
 
 	for (array_index= 0; array_index<TOTAL_CHANNELS;array_index++)
 		leds[array_index] = 0;//all previous values are erased
 }
 
-if(colorIntensity >3 && colorIntensity<7)
-{
-	if(colorIntensity == 4)
-		intensity = 4095;
-	if(colorIntensity == 5)
-		intensity = 1024;
-	if(colorIntensity == 6)
-		intensity = 32;
-}
+
 
 
 	for (array_index=position; array_index<TOTAL_CHANNELS;array_index+=increment)
-//		leds[array_index] = 4095*1/(position+1);//intensidad tenue
 		leds[array_index] = intensity;
 
 }

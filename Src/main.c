@@ -268,31 +268,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   HAL_UART_Receive_IT(&huart3, &uartByte, 1);//re-enable the rx int
 
   if(uartByte > 47 && uartByte <55)
-	  UARTVal=uartByte;
-
-//  if(uartByte == 48)
-//	  //0
-//	  FillArray(0);//BLUE
-//
-//  if(uartByte == 49)
-//	  //1
-//	  FillArray(1);//GREEN
-//
-//  if(uartByte == 50)
-//	  //2
-//	  FillArray(2);//RED
-//
-//  if(uartByte == 52)
-//	  //4
-//	  FillArray(HIGH);
-//
-//  if(uartByte == 53)
-//	  //5
-//	  FillArray(MID);
-//
-//  if(uartByte == 54)
-//	  //6
-//	  FillArray(LOW);
+	  UARTVal=uartByte;//the values that are relevant are stored
 
 
 }
