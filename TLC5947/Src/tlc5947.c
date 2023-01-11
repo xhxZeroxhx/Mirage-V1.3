@@ -72,15 +72,15 @@ void FillArray(uint8_t colorIntensity)
 		  position = RED;//BLUE
 
 	  if(colorIntensity == 52)
-		  //HIGH
+		  //HIGH - 4
 		  intensity = 4095;
 
 	  if(colorIntensity == 53)
-		  //MID
+		  //MID - 5
 		  intensity = 1024;
 
 	  if(colorIntensity == 54)
-		  //LOW
+		  //LOW - 6
 		  intensity = 32;
 
 if(position >-1 && position<3)
