@@ -50,6 +50,8 @@ SPI_HandleTypeDef hspi1;
 
 TIM_HandleTypeDef htim4;
 
+UART_HandleTypeDef huart3;
+
 /* USER CODE BEGIN PV */
 
 uint8_t uartByte, UARTVal = 0;//val received, val stored
@@ -61,6 +63,7 @@ uint8_t imain=47;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_USART3_UART_Init(void);
 static void MX_TIM4_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -101,9 +104,10 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_SPI1_Init();
+  MX_USART3_UART_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
-//  HAL_UART_Receive_IT(&huart3, &uartByte, 1);//this triggers only once,uses interrupt and it has to be re-enabled
+  HAL_UART_Receive_IT(&huart3, &uartByte, 1);//this triggers only once,uses interrupt and it has to be re-enabled
   FillArray(BLUE);//it will be red
   HAL_TIM_Base_Start_IT(&htim4);
 
@@ -248,6 +252,39 @@ static void MX_TIM4_Init(void)
 }
 
 /**
+  * @brief USART3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART3_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART3_Init 0 */
+
+  /* USER CODE END USART3_Init 0 */
+
+  /* USER CODE BEGIN USART3_Init 1 */
+
+  /* USER CODE END USART3_Init 1 */
+  huart3.Instance = USART3;
+  huart3.Init.BaudRate = 9600;
+  huart3.Init.WordLength = UART_WORDLENGTH_8B;
+  huart3.Init.StopBits = UART_STOPBITS_1;
+  huart3.Init.Parity = UART_PARITY_NONE;
+  huart3.Init.Mode = UART_MODE_TX_RX;
+  huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart3.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART3_Init 2 */
+
+  /* USER CODE END USART3_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -260,6 +297,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, TLC5947_BLANK_Pin|TLC5947_XLAT_Pin, GPIO_PIN_RESET);
@@ -275,18 +313,18 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-//{
-//  HAL_UART_Transmit(&huart3, &uartByte, 1, 100);//echo the received msg to verify that all is good
-//  HAL_UART_Receive_IT(&huart3, &uartByte, 1);//re-enable the rx int
-//  HAL_UART_Transmit(&huart3, (uint8_t *)"BP\r\n", 4U, 100);//so as to know it comes from the BP
-//  HAL_UART_Receive_IT(&huart3, &uartByte, 1);//re-enable the rx int
-//
-//  if(uartByte > 47 && uartByte <55)
-//	  UARTVal=uartByte;//the values that are relevant are stored
-//
-//
-//}
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  HAL_UART_Transmit(&huart3, &uartByte, 1, 100);//echo the received msg to verify that all is good
+  HAL_UART_Receive_IT(&huart3, &uartByte, 1);//re-enable the rx int
+  HAL_UART_Transmit(&huart3, (uint8_t *)"BP\r\n", 4U, 100);//so as to know it comes from the BP
+  HAL_UART_Receive_IT(&huart3, &uartByte, 1);//re-enable the rx int
+
+  if(uartByte > 47 && uartByte <55)
+	  UARTVal=uartByte;//the values that are relevant are stored
+
+
+}
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
@@ -294,11 +332,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if(htim->Instance== TIM4)
 	{
 	  	TLC_Update();//renew PWM
-	  	imain ++;
-	  	if(imain > 54 )
-	  		imain = 47;
-//	 	FillArray(UARTVal);
-	 	FillArray(imain);
+//	  	imain ++;
+//	  	if(imain > 54 )
+//	  		imain = 47;
+//	 	FillArray(imain);
+	 	FillArray(UARTVal);
+
 	}
 
 

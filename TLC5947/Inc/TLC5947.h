@@ -26,14 +26,14 @@
 #define SPI_BYTE_AMOUNT (TLC5947_CHANNELS*12*TLC5947_DRIVER_AMOUNT/8) //Para solo una placa tengo que enviar 12 bits x 24 canales/8 bits = 36 Bytes
 
 //possible colors
-#define RED 0
-#define GREEN 1
-#define BLUE 2
-#define RGB 3 // currently not supported
+#define RED 48
+#define GREEN 49
+#define BLUE 50
+#define RGB 51 // currently not supported
 //led intensity
-#define HIGH 4
-#define MID 5
-#define LOW 6
+#define HIGH 52
+#define MID 53
+#define LOW 54
 
 /* USER CODE END Includes */
 
