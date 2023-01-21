@@ -62,6 +62,9 @@ void Error_Handler(void);
 #define TLC5947_BLANK_GPIO_Port GPIOA
 #define TLC5947_XLAT_Pin GPIO_PIN_3
 #define TLC5947_XLAT_GPIO_Port GPIOA
+#define Hall_sensor_Pin GPIO_PIN_9
+#define Hall_sensor_GPIO_Port GPIOB
+#define Hall_sensor_EXTI_IRQn EXTI9_5_IRQn
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

@@ -54,7 +54,7 @@ UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN PV */
 
-uint8_t uartByte, UARTVal = 0;//val received, val stored
+uint8_t uartByte, UARTVal,TLCFlag = 0;//val received, val stored, Timer flag
 uint8_t imain=47;
 
 /* USER CODE END PV */
@@ -107,9 +107,10 @@ int main(void)
   MX_USART3_UART_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
-  HAL_UART_Receive_IT(&huart3, &uartByte, 1);//this triggers only once,uses interrupt and it has to be re-enabled
+//  HAL_UART_Receive_IT(&huart3, &uartByte, 1);//this triggers only once,uses interrupt and it has to be re-enabled
   FillArray(BLUE);//it will be red
   HAL_TIM_Base_Start_IT(&htim4);
+
 
   /* USER CODE END 2 */
 
@@ -120,13 +121,16 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//	  	TLC_Update();//renew PWM
-////	  	HAL_Delay(1000);
-//	  	imain ++;
-//	  	if(imain > 54 )
-//	  		imain = 47;
-////	 	FillArray(UARTVal);
-//	 	FillArray(imain);
+	  if(TLCFlag){//enter when TIM4 interrupts
+		  TLC_Update();//renew PWM
+		  imain ++;
+
+		  if(imain > 54 )
+		  	imain = 47;
+
+		  FillArray(imain);
+		  TLCFlag = 0;//disable TLC Update
+	  }
   }
   /* USER CODE END 3 */
 }
@@ -309,37 +313,40 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : Hall_sensor_Pin */
+  GPIO_InitStruct.Pin = Hall_sensor_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(Hall_sensor_GPIO_Port, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+
 }
 
 /* USER CODE BEGIN 4 */
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-  HAL_UART_Transmit(&huart3, &uartByte, 1, 100);//echo the received msg to verify that all is good
-  HAL_UART_Receive_IT(&huart3, &uartByte, 1);//re-enable the rx int
-  HAL_UART_Transmit(&huart3, (uint8_t *)"BP\r\n", 4U, 100);//so as to know it comes from the BP
-  HAL_UART_Receive_IT(&huart3, &uartByte, 1);//re-enable the rx int
+	if (huart->Instance == USART3) {
+	    // USART3
+	  HAL_UART_Transmit(&huart3, &uartByte, 1, 100);//echo the received msg to verify that all is good
+	  HAL_UART_Receive_IT(&huart3, &uartByte, 1);//re-enable the rx int
+	  HAL_UART_Transmit(&huart3, (uint8_t *)"BP\r\n", 4U, 100);//so as to know it comes from the BP
+	  HAL_UART_Receive_IT(&huart3, &uartByte, 1);//re-enable the rx int
 
-  if(uartByte > 47 && uartByte <55)
-	  UARTVal=uartByte;//the values that are relevant are stored
+	  if(uartByte > 47 && uartByte <55)
+		  UARTVal=uartByte;//the values that are relevant are stored
+	}
 
 
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-
 	if(htim->Instance== TIM4)
-	{
-	  	TLC_Update();//renew PWM
-//	  	imain ++;
-//	  	if(imain > 54 )
-//	  		imain = 47;
-//	 	FillArray(imain);
-	 	FillArray(UARTVal);
-
-	}
-
+		TLCFlag = 1;//enable TLC Update
 
 }
 void TLC_Write(uint8_t data[])
