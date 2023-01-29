@@ -346,6 +346,10 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(Hall_sensor_GPIO_Port, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+
 }
 
 /* USER CODE BEGIN 4 */
@@ -382,6 +386,38 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		TLCFlag = 1;//enable TLC Update
 
 }
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+
+ static uint16_t g_prevTime = 0 ,g_curTime = 0, g_tDelay = 0; //stores timertick
+
+
+  g_prevTime = g_curTime;
+  if(GPIO_Pin == GPIO_PIN_9) // pin del sensor hall
+  {
+	  /*
+	   * 1 way of acquiring period of each turn
+	   */
+	  g_curTime = HAL_GetTick(); //Provides a tick value in millisecond
+	  g_tDelay = (g_curTime - g_prevTime);
+
+	  /*
+	   * time it takes to do 1° = 360/g_tDelay;
+	   * The hall sensor is at 270° and for testing the leds
+	   * i want a straight line at 90°, thus i have to wait (270-90)° = 180°
+	   */
+	  //for this to work i have to change the prescaler of timer 4 so that tim4 interrupts every 1ms
+
+	  __HAL_TIM_SET_PRESCALER(&htim4,35);//ERASE THIS ONCE TIM4 IS CONFIGURED FROM .ioc FILE
+
+	  __HAL_TIM_SET_AUTORELOAD(&htim4,__HAL_TIM_GET_AUTORELOAD(&htim4)*180*(360/g_tDelay));//1"*180°*time1°
+
+
+  }
+
+}
+
 void TLC_Write(uint8_t data[])
 //void TLC_Write(uint8_t *data)
 {
