@@ -34,6 +34,8 @@
 #define HIGH 52
 #define MID 53
 #define LOW 54
+//IMG or STR to display
+#define LINE 1
 
 /* USER CODE END Includes */
 
