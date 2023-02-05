@@ -22,7 +22,8 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
- C:/Users/Marta/STM32CubeIDE/workspace_1.0.1/Mirage-V1.3/TLC5947/Inc/TLC5947.h
+ C:/Users/Marta/STM32CubeIDE/workspace_1.0.1/Mirage-V1.3/TLC5947/Inc/TLC5947.h \
+ C:/Users/Marta/STM32CubeIDE/workspace_1.0.1/Mirage-V1.3/Custom/Inc/hall_sensor.h
 
 ../Inc/main.h:
 
@@ -73,3 +74,5 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
 
 C:/Users/Marta/STM32CubeIDE/workspace_1.0.1/Mirage-V1.3/TLC5947/Inc/TLC5947.h:
+
+C:/Users/Marta/STM32CubeIDE/workspace_1.0.1/Mirage-V1.3/Custom/Inc/hall_sensor.h:

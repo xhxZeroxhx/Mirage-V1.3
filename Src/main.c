@@ -24,6 +24,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "TLC5947.h"
+#include "hall_sensor.h"
 
 //#include "spi1.h"
 
@@ -53,9 +54,9 @@ TIM_HandleTypeDef htim4;
 
 /* USER CODE BEGIN PV */
 
-uint8_t uartByte, UARTVal,TLCFlag = 0;//val received, val stored, Timer flag
-uint8_t imain=47;
-uint16_t TIMCounter = 0;
+uint8_t g_uartByte, g_UARTVal,g_TLCFlag = 0;//val received, val stored, Timer flag
+uint8_t g_imain=47,g_MotorSync = FALSE;//g_MotorSync is used to indicate that the motor is working in nominal speed
+uint16_t g_TIMCounter = 0;
 
 /* USER CODE END PV */
 
@@ -107,7 +108,7 @@ int main(void)
   MX_TIM4_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-//  HAL_UART_Receive_IT(&huart3, &uartByte, 1);//this triggers only once,uses interrupt and it has to be re-enabled
+//  HAL_UART_Receive_IT(&huart3, &g_uartByte, 1);//this triggers only once,uses interrupt and it has to be re-enabled
   FillArray(BLUE);//it will be red
   HAL_TIM_Base_Start_IT(&htim4);//Starts the TIM Base generation in interrupt mode. The oder mode just allows the count
   HAL_TIM_Base_Start_IT(&htim2);
@@ -124,16 +125,16 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  if(TLCFlag){//enter when TIM4 interrupts
+	  if(g_TLCFlag){//enter when TIM4 interrupts
 		  TLC_Update();//renew PWM
-		  imain ++;
+		  g_imain ++;
 
-//		  if(imain > 54 ) //enables dimming of the leds
-		  if(imain > 50 ) //only enables RGB
-		  	imain = 48;
+//		  if(g_imain > 54 ) //enables dimming of the leds
+		  if(g_imain > 50 ) //only enables RGB
+		  	g_imain = 48;
 
-		  FillArray(imain);
-		  TLCFlag = 0;//disable TLC Update
+		  FillArray(g_imain);
+		  g_TLCFlag = 0;//disable TLC Update
 	  }
 
   }
@@ -358,13 +359,13 @@ static void MX_GPIO_Init(void)
 //{
 //	if (huart->Instance == USART3) {
 //	    // USART3
-//	  HAL_UART_Transmit(&huart3, &uartByte, 1, 100);//echo the received msg to verify that all is good
-//	  HAL_UART_Receive_IT(&huart3, &uartByte, 1);//re-enable the rx int
+//	  HAL_UART_Transmit(&huart3, &g_uartByte, 1, 100);//echo the received msg to verify that all is good
+//	  HAL_UART_Receive_IT(&huart3, &g_uartByte, 1);//re-enable the rx int
 //	  HAL_UART_Transmit(&huart3, (uint8_t *)"BP\r\n", 4U, 100);//so as to know it comes from the BP
-//	  HAL_UART_Receive_IT(&huart3, &uartByte, 1);//re-enable the rx int
+//	  HAL_UART_Receive_IT(&huart3, &g_uartByte, 1);//re-enable the rx int
 //
-//	  if(uartByte > 47 && uartByte <55)
-//		  UARTVal=uartByte;//the values that are relevant are stored
+//	  if(g_uartByte > 47 && g_uartByte <55)
+//		  g_UARTVal=g_uartByte;//the values that are relevant are stored
 //	}
 //
 //
@@ -383,19 +384,25 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	}
 
 	if(htim->Instance== TIM4)
-		TLCFlag = 1;//enable TLC Update
+		g_TLCFlag = 1;//enable TLC Update
 
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 
- static uint16_t g_prevTime = 0 ,g_curTime = 0, g_tDelay = 0; //stores timertick
+ static uint16_t g_prevTime = 0 ,g_curTime = 0, g_tDelay = 0,LoopCounter = 0; //stores timertick, LoopCounter is used to count 'x' amount of loops to allow the motor to stabilize
 
 
   g_prevTime = g_curTime;
-  if(GPIO_Pin == GPIO_PIN_9) // pin del sensor hall
+  if(GPIO_Pin == GPIO_PIN_9) // hall sensor's pin
   {
+	  if(g_MotorSync == FALSE)//until the motor is working properly loops are just counted
+		  LoopCounter++;
+
+	  if(LoopCounter == 10) //the optimal LoopCounter val will be found through trail and error
+		  g_MotorSync = TRUE;
+
 	  /*
 	   * 1 way of acquiring period of each turn
 	   */
