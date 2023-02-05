@@ -49,7 +49,6 @@
 /* Private variables ---------------------------------------------------------*/
 SPI_HandleTypeDef hspi1;
 
-TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim4;
 
 /* USER CODE BEGIN PV */
@@ -65,7 +64,6 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM4_Init(void);
-static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -106,12 +104,11 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   MX_TIM4_Init();
-  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 //  HAL_UART_Receive_IT(&huart3, &g_uartByte, 1);//this triggers only once,uses interrupt and it has to be re-enabled
   FillArray(BLUE);//it will be red
   HAL_TIM_Base_Start_IT(&htim4);//Starts the TIM Base generation in interrupt mode. The oder mode just allows the count
-  HAL_TIM_Base_Start_IT(&htim2);
+//  HAL_TIM_Base_Start_IT(&htim2);
 
   HAL_GPIO_WritePin(TLC5947_BLANK_GPIO_Port, TLC5947_BLANK_Pin, GPIO_PIN_SET);//Turn off leds
 
@@ -213,51 +210,6 @@ static void MX_SPI1_Init(void)
   /* USER CODE BEGIN SPI1_Init 2 */
 
   /* USER CODE END SPI1_Init 2 */
-
-}
-
-/**
-  * @brief TIM2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM2_Init(void)
-{
-
-  /* USER CODE BEGIN TIM2_Init 0 */
-
-  /* USER CODE END TIM2_Init 0 */
-
-  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-
-  /* USER CODE BEGIN TIM2_Init 1 */
-
-  /* USER CODE END TIM2_Init 1 */
-  htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 35999;
-  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 1999;
-  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
-  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM2_Init 2 */
-
-  /* USER CODE END TIM2_Init 2 */
 
 }
 
@@ -374,17 +326,18 @@ static void MX_GPIO_Init(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 
-	if(htim->Instance==TIM2){
-		HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);//Simple test with board's pin
-
-		if(__HAL_TIM_GET_AUTORELOAD(&htim2)>10000)
-			__HAL_TIM_SET_AUTORELOAD(&htim2,1999);//p.1040
-		else
-			__HAL_TIM_SET_AUTORELOAD(&htim2,(__HAL_TIM_GET_AUTORELOAD(&htim2)+2000));//p.1040 i add 1"
-	}
+//	if(htim->Instance==TIM2){
+//		HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);//Simple test with board's pin
+//
+//		if(__HAL_TIM_GET_AUTORELOAD(&htim2)>10000)
+//			__HAL_TIM_SET_AUTORELOAD(&htim2,1999);//p.1040
+//		else
+//			__HAL_TIM_SET_AUTORELOAD(&htim2,(__HAL_TIM_GET_AUTORELOAD(&htim2)+2000));//p.1040 i add 1"
+//	}
 
 	if(htim->Instance== TIM4)
-		g_TLCFlag = 1;//enable TLC Update
+//		if(g_MotorSync == TRUE)//uncomment when the board is connected to the motor
+			g_TLCFlag = 1;//enable TLC Update
 
 }
 
