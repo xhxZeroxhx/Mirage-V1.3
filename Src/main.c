@@ -106,7 +106,7 @@ int main(void)
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 //  HAL_UART_Receive_IT(&huart3, &g_uartByte, 1);//this triggers only once,uses interrupt and it has to be re-enabled
-  FillArray(BLUE);//it will be red
+  FillArray(BLUE,FABITEST);//it will be red
   HAL_TIM_Base_Start_IT(&htim4);//Starts the TIM Base generation in interrupt mode. The oder mode just allows the count
 //  HAL_TIM_Base_Start_IT(&htim2);
 
@@ -130,7 +130,8 @@ int main(void)
 		  if(g_imain > 50 ) //only enables RGB
 		  	g_imain = 48;
 
-		  FillArray(g_imain);
+//		  FillArray(g_imain,FABITEST);
+		  FillArray(g_imain,LINE);
 		  g_TLCFlag = 0;//disable TLC Update
 	  }
 

@@ -35,7 +35,9 @@
 #define MID 53
 #define LOW 54
 //IMG or STR to display
+#define FABITEST 0
 #define LINE 1
+#define LETTERa 2
 
 /* USER CODE END Includes */
 
@@ -78,7 +80,7 @@
 /* USER CODE BEGIN PFP */
 void TLC_Write(uint8_t data[]);// prototipo para mandar todo un vector de bytes
 void TLC_Update(void);
-void FillArray(uint8_t colorIntensity);// prototipo para llenar el array en la prueba de los canales
+void FillArray(uint8_t colorIntensity,uint8_t ledControl);// fills leds array depending on what is input in control
 
 /* USER CODE END PFP */
 

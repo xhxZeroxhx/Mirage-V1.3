@@ -376,26 +376,22 @@ void TLC_Update(void)
     for (int8_t i = 0; i < TOTAL_CHANNELS; i += 2) // lleno
     {
         uint8_t send1 = 0;
-//        uint8_t send = g_leds[i] >> 4; // mando MSB
         uint8_t send = g_LedsMatrix[0][i] >> 4; // Sending MSB, for initial test we'll only use 0° since it's not spinning
 
 
         g_spi_send[si]=send;//
         si++;
 
-//        send = (g_leds[i] & 0x000F);
         send = (g_LedsMatrix[0][i] & 0x000F);
         send <<= 4;
-//        send1 = (g_leds[i+1]) >> 8;
+
         send1 = (g_LedsMatrix[0][i+1]) >> 8;
         send |= send1; //me quedo con 4 bits menos significativos del canal i y 4 bits más significativos del canal i-1
 
         g_spi_send[si]=send;//
         si++;
 
-
-//        send = g_leds[i+1];//borro 4 bits más significativos del canal i-1 y mando LSB del canal i-1
-          send = g_LedsMatrix[0][i+1];//Erasing 4 most significant bits from chanel i-1, and sending LSB from chanel i-1
+        send = g_LedsMatrix[0][i+1];//Erasing 4 most significant bits from chanel i-1, and sending LSB from chanel i-1
 
         g_spi_send[si]=send;//
         si++;
@@ -421,10 +417,15 @@ void TLC_Update(void)
  * en las últimas posiciones de 65535
  *
  */
-void FillArray(uint8_t colorIntensity)
+void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 {
 	static uint8_t position = 0, increment = 3,array_index = 0;
 	static uint16_t intensity = 4095;
+
+	switch(ledControl){
+
+	case 0:
+		//FABITEST
 
 	  if(colorIntensity == 48)
 		  //0
@@ -453,21 +454,21 @@ void FillArray(uint8_t colorIntensity)
 if(position >-1 && position<3)
 {
 
-	for (array_index= 0; array_index<TOTAL_CHANNELS;array_index++)
-//		g_leds[array_index] = 0;//all previous values are erased
+	for (array_index = 0; array_index<TOTAL_CHANNELS;array_index++)
 		g_LedsMatrix[0][array_index]=0;
 }
 
 
-
-
 	for (array_index=position; array_index<TOTAL_CHANNELS;array_index+=increment)
-//		g_leds[array_index] = intensity;
 		g_LedsMatrix[0][array_index]=intensity;
+	break;
 
-	if(g_command == LINE)
-			for (uint8_t col= 0; col <TOTAL_CHANNELS;col++)
-				g_LedsMatrix[179][col]=2048;
+	case 1:
+		//LINE
+		for (array_index = 0; array_index <TOTAL_CHANNELS;array_index+=increment)
+			g_LedsMatrix[179][array_index]=2048;
+	break;
 
+	}
 
 }
