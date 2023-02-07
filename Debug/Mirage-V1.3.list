@@ -27,25 +27,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000029  00000000  00000000  00020014  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00011d97  00000000  00000000  0002003d  2**0
+ 12 .debug_info   00011d9c  00000000  00000000  0002003d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_abbrev 0000214e  00000000  00000000  00031dd4  2**0
+ 13 .debug_abbrev 0000214e  00000000  00000000  00031dd9  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_loc    00007305  00000000  00000000  00033f22  2**0
+ 14 .debug_loc    00007305  00000000  00000000  00033f27  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_aranges 00000a60  00000000  00000000  0003b228  2**3
+ 15 .debug_aranges 00000a60  00000000  00000000  0003b230  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_ranges 00000a20  00000000  00000000  0003bc88  2**3
+ 16 .debug_ranges 00000a20  00000000  00000000  0003bc90  2**3
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_macro  00015806  00000000  00000000  0003c6a8  2**0
+ 17 .debug_macro  00015806  00000000  00000000  0003c6b0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_line   0000a331  00000000  00000000  00051eae  2**0
+ 18 .debug_line   0000a331  00000000  00000000  00051eb6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .debug_str    000713c8  00000000  00000000  0005c1df  2**0
+ 19 .debug_str    000713cb  00000000  00000000  0005c1e7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 20 .comment      0000007b  00000000  00000000  000cd5a7  2**0
+ 20 .comment      0000007b  00000000  00000000  000cd5b2  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  00001b08  00000000  00000000  000cd624  2**2
+ 21 .debug_frame  00001b08  00000000  00000000  000cd630  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -2795,10 +2795,10 @@ static void MX_GPIO_Init(void)
  800121a:	f7ff f933 	bl	8000484 <HAL_GPIO_WritePin>
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, TLC5947_BLANK_Pin|TLC5947_XLAT_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, TLC5947_BLANK_Pin|TLC5947_XLAT_Pin, GPIO_PIN_RESET);
  800121e:	4d19      	ldr	r5, [pc, #100]	; (8001284 <MX_GPIO_Init+0xd0>)
  8001220:	4622      	mov	r2, r4
- 8001222:	210a      	movs	r1, #10
+ 8001222:	2150      	movs	r1, #80	; 0x50
  8001224:	4628      	mov	r0, r5
  8001226:	f7ff f92d 	bl	8000484 <HAL_GPIO_WritePin>
 
@@ -2819,43 +2819,43 @@ static void MX_GPIO_Init(void)
  800123c:	4640      	mov	r0, r8
  800123e:	f7ff f837 	bl	80002b0 <HAL_GPIO_Init>
 
-  /*Configure GPIO pins : TLC5947_BLANK_Pin TLC5947_XLAT_Pin */
-  GPIO_InitStruct.Pin = TLC5947_BLANK_Pin|TLC5947_XLAT_Pin;
- 8001242:	230a      	movs	r3, #10
- 8001244:	9304      	str	r3, [sp, #16]
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
- 8001246:	9705      	str	r7, [sp, #20]
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
- 8001248:	9406      	str	r4, [sp, #24]
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
- 800124a:	9607      	str	r6, [sp, #28]
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
- 800124c:	a904      	add	r1, sp, #16
- 800124e:	4628      	mov	r0, r5
- 8001250:	f7ff f82e 	bl	80002b0 <HAL_GPIO_Init>
-
   /*Configure GPIO pin : Hall_sensor_Pin */
   GPIO_InitStruct.Pin = Hall_sensor_Pin;
- 8001254:	f44f 7300 	mov.w	r3, #512	; 0x200
- 8001258:	9304      	str	r3, [sp, #16]
+ 8001242:	f44f 6380 	mov.w	r3, #1024	; 0x400
+ 8001246:	9304      	str	r3, [sp, #16]
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
- 800125a:	4b0b      	ldr	r3, [pc, #44]	; (8001288 <MX_GPIO_Init+0xd4>)
- 800125c:	9305      	str	r3, [sp, #20]
+ 8001248:	4b0f      	ldr	r3, [pc, #60]	; (8001288 <MX_GPIO_Init+0xd4>)
+ 800124a:	9305      	str	r3, [sp, #20]
   GPIO_InitStruct.Pull = GPIO_NOPULL;
- 800125e:	9406      	str	r4, [sp, #24]
+ 800124c:	9406      	str	r4, [sp, #24]
   HAL_GPIO_Init(Hall_sensor_GPIO_Port, &GPIO_InitStruct);
+ 800124e:	a904      	add	r1, sp, #16
+ 8001250:	480e      	ldr	r0, [pc, #56]	; (800128c <MX_GPIO_Init+0xd8>)
+ 8001252:	f7ff f82d 	bl	80002b0 <HAL_GPIO_Init>
+
+  /*Configure GPIO pins : TLC5947_BLANK_Pin TLC5947_XLAT_Pin */
+  GPIO_InitStruct.Pin = TLC5947_BLANK_Pin|TLC5947_XLAT_Pin;
+ 8001256:	2350      	movs	r3, #80	; 0x50
+ 8001258:	9304      	str	r3, [sp, #16]
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+ 800125a:	9705      	str	r7, [sp, #20]
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 800125c:	9406      	str	r4, [sp, #24]
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 800125e:	9607      	str	r6, [sp, #28]
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
  8001260:	a904      	add	r1, sp, #16
- 8001262:	480a      	ldr	r0, [pc, #40]	; (800128c <MX_GPIO_Init+0xd8>)
+ 8001262:	4628      	mov	r0, r5
  8001264:	f7ff f824 	bl	80002b0 <HAL_GPIO_Init>
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
  8001268:	4622      	mov	r2, r4
  800126a:	4621      	mov	r1, r4
- 800126c:	2017      	movs	r0, #23
+ 800126c:	2028      	movs	r0, #40	; 0x28
  800126e:	f7fe ffc9 	bl	8000204 <HAL_NVIC_SetPriority>
-  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
- 8001272:	2017      	movs	r0, #23
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+ 8001272:	2028      	movs	r0, #40	; 0x28
  8001274:	f7fe fffa 	bl	800026c <HAL_NVIC_EnableIRQ>
 
 }
@@ -2863,9 +2863,9 @@ static void MX_GPIO_Init(void)
  800127a:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
  800127e:	bf00      	nop
  8001280:	40021000 	.word	0x40021000
- 8001284:	40010800 	.word	0x40010800
+ 8001284:	40010c00 	.word	0x40010c00
  8001288:	10110000 	.word	0x10110000
- 800128c:	40010c00 	.word	0x40010c00
+ 800128c:	40010800 	.word	0x40010800
  8001290:	40011000 	.word	0x40011000
 
 08001294 <MX_SPI1_Init>:
@@ -3041,7 +3041,7 @@ static void MX_GPIO_Init(void)
  800139a:	f7ff fd3c 	bl	8000e16 <HAL_TIM_Base_Start_IT>
   HAL_GPIO_WritePin(TLC5947_BLANK_GPIO_Port, TLC5947_BLANK_Pin, GPIO_PIN_SET);//Turn off leds
  800139e:	2201      	movs	r2, #1
- 80013a0:	2102      	movs	r1, #2
+ 80013a0:	2110      	movs	r1, #16
  80013a2:	480f      	ldr	r0, [pc, #60]	; (80013e0 <main+0x64>)
  80013a4:	f7ff f86e 	bl	8000484 <HAL_GPIO_WritePin>
  80013a8:	e006      	b.n	80013b8 <main+0x3c>
@@ -3076,7 +3076,7 @@ static void MX_GPIO_Init(void)
  80013d8:	e7e7      	b.n	80013aa <main+0x2e>
  80013da:	bf00      	nop
  80013dc:	20004420 	.word	0x20004420
- 80013e0:	40010800 	.word	0x40010800
+ 80013e0:	40010c00 	.word	0x40010c00
  80013e4:	20000008 	.word	0x20000008
  80013e8:	20000033 	.word	0x20000033
 
@@ -3117,8 +3117,8 @@ static void MX_GPIO_Init(void)
  800140a:	881a      	ldrh	r2, [r3, #0]
  800140c:	4b1b      	ldr	r3, [pc, #108]	; (800147c <HAL_GPIO_EXTI_Callback+0x74>)
  800140e:	801a      	strh	r2, [r3, #0]
-  if(GPIO_Pin == GPIO_PIN_9) // hall sensor's pin
- 8001410:	f5b0 7f00 	cmp.w	r0, #512	; 0x200
+  if(GPIO_Pin == Hall_sensor_Pin) // hall sensor's pin
+ 8001410:	f5b0 6f80 	cmp.w	r0, #1024	; 0x400
  8001414:	d000      	beq.n	8001418 <HAL_GPIO_EXTI_Callback+0x10>
  8001416:	4770      	bx	lr
 {
@@ -3468,47 +3468,47 @@ void SysTick_Handler(void)
 }
  80015a2:	bd08      	pop	{r3, pc}
 
-080015a4 <EXTI9_5_IRQHandler>:
-
-/**
-  * @brief This function handles EXTI line[9:5] interrupts.
-  */
-void EXTI9_5_IRQHandler(void)
-{
- 80015a4:	b508      	push	{r3, lr}
-  /* USER CODE BEGIN EXTI9_5_IRQn 0 */
-
-  /* USER CODE END EXTI9_5_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_9);
- 80015a6:	f44f 7000 	mov.w	r0, #512	; 0x200
- 80015aa:	f7fe ff71 	bl	8000490 <HAL_GPIO_EXTI_IRQHandler>
-  /* USER CODE BEGIN EXTI9_5_IRQn 1 */
-
-  /* USER CODE END EXTI9_5_IRQn 1 */
-}
- 80015ae:	bd08      	pop	{r3, pc}
-
-080015b0 <TIM4_IRQHandler>:
+080015a4 <TIM4_IRQHandler>:
 
 /**
   * @brief This function handles TIM4 global interrupt.
   */
 void TIM4_IRQHandler(void)
 {
- 80015b0:	b508      	push	{r3, lr}
+ 80015a4:	b508      	push	{r3, lr}
   /* USER CODE BEGIN TIM4_IRQn 0 */
 
   /* USER CODE END TIM4_IRQn 0 */
   HAL_TIM_IRQHandler(&htim4);
- 80015b2:	4802      	ldr	r0, [pc, #8]	; (80015bc <TIM4_IRQHandler+0xc>)
- 80015b4:	f7ff fcc3 	bl	8000f3e <HAL_TIM_IRQHandler>
+ 80015a6:	4802      	ldr	r0, [pc, #8]	; (80015b0 <TIM4_IRQHandler+0xc>)
+ 80015a8:	f7ff fcc9 	bl	8000f3e <HAL_TIM_IRQHandler>
   /* USER CODE BEGIN TIM4_IRQn 1 */
 
   /* USER CODE END TIM4_IRQn 1 */
 }
- 80015b8:	bd08      	pop	{r3, pc}
- 80015ba:	bf00      	nop
- 80015bc:	20004420 	.word	0x20004420
+ 80015ac:	bd08      	pop	{r3, pc}
+ 80015ae:	bf00      	nop
+ 80015b0:	20004420 	.word	0x20004420
+
+080015b4 <EXTI15_10_IRQHandler>:
+
+/**
+  * @brief This function handles EXTI line[15:10] interrupts.
+  */
+void EXTI15_10_IRQHandler(void)
+{
+ 80015b4:	b508      	push	{r3, lr}
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_10);
+ 80015b6:	f44f 6080 	mov.w	r0, #1024	; 0x400
+ 80015ba:	f7fe ff69 	bl	8000490 <HAL_GPIO_EXTI_IRQHandler>
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  /* USER CODE END EXTI15_10_IRQn 1 */
+}
+ 80015be:	bd08      	pop	{r3, pc}
 
 080015c0 <SystemInit>:
   */
@@ -3679,7 +3679,7 @@ void TLC_Update(void)
 
     HAL_GPIO_WritePin(TLC5947_BLANK_GPIO_Port, TLC5947_BLANK_Pin, GPIO_PIN_SET);
  800165a:	2201      	movs	r2, #1
- 800165c:	2102      	movs	r1, #2
+ 800165c:	2110      	movs	r1, #16
  800165e:	481a      	ldr	r0, [pc, #104]	; (80016c8 <TLC_Update+0x70>)
  8001660:	f7fe ff10 	bl	8000484 <HAL_GPIO_WritePin>
 
@@ -3742,24 +3742,24 @@ void TLC_Update(void)
     HAL_GPIO_WritePin(TLC5947_XLAT_GPIO_Port, TLC5947_XLAT_Pin, GPIO_PIN_SET);
  80016a4:	4c08      	ldr	r4, [pc, #32]	; (80016c8 <TLC_Update+0x70>)
  80016a6:	2201      	movs	r2, #1
- 80016a8:	2108      	movs	r1, #8
+ 80016a8:	2140      	movs	r1, #64	; 0x40
  80016aa:	4620      	mov	r0, r4
  80016ac:	f7fe feea 	bl	8000484 <HAL_GPIO_WritePin>
     HAL_GPIO_WritePin(TLC5947_XLAT_GPIO_Port, TLC5947_XLAT_Pin, GPIO_PIN_RESET);
  80016b0:	2200      	movs	r2, #0
- 80016b2:	2108      	movs	r1, #8
+ 80016b2:	2140      	movs	r1, #64	; 0x40
  80016b4:	4620      	mov	r0, r4
  80016b6:	f7fe fee5 	bl	8000484 <HAL_GPIO_WritePin>
     HAL_GPIO_WritePin(TLC5947_BLANK_GPIO_Port, TLC5947_BLANK_Pin, GPIO_PIN_RESET);
  80016ba:	2200      	movs	r2, #0
- 80016bc:	2102      	movs	r1, #2
+ 80016bc:	2110      	movs	r1, #16
  80016be:	4620      	mov	r0, r4
  80016c0:	f7fe fee0 	bl	8000484 <HAL_GPIO_WritePin>
 
 }
  80016c4:	bd70      	pop	{r4, r5, r6, pc}
  80016c6:	bf00      	nop
- 80016c8:	40010800 	.word	0x40010800
+ 80016c8:	40010c00 	.word	0x40010c00
  80016cc:	200043c0 	.word	0x200043c0
  80016d0:	200043f0 	.word	0x200043f0
 

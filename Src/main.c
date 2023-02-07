@@ -277,7 +277,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, TLC5947_BLANK_Pin|TLC5947_XLAT_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, TLC5947_BLANK_Pin|TLC5947_XLAT_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
@@ -286,22 +286,22 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : TLC5947_BLANK_Pin TLC5947_XLAT_Pin */
-  GPIO_InitStruct.Pin = TLC5947_BLANK_Pin|TLC5947_XLAT_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
   /*Configure GPIO pin : Hall_sensor_Pin */
   GPIO_InitStruct.Pin = Hall_sensor_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(Hall_sensor_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : TLC5947_BLANK_Pin TLC5947_XLAT_Pin */
+  GPIO_InitStruct.Pin = TLC5947_BLANK_Pin|TLC5947_XLAT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 }
 
@@ -348,7 +348,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 
   g_prevTime = g_curTime;
-  if(GPIO_Pin == GPIO_PIN_9) // hall sensor's pin
+  if(GPIO_Pin == Hall_sensor_Pin) // hall sensor's pin
   {
 	  if(g_MotorSync == FALSE)//until the motor is working properly loops are just counted
 		  LoopCounter++;
