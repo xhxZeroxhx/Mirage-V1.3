@@ -21,14 +21,14 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #define TLC5947_CHANNELS 24 //Cantidad de canales a escribir por cada tlc5947
-#define TLC5947_DRIVER_AMOUNT 1 //Cantidad de tlc5947 que uso
+#define TLC5947_DRIVER_AMOUNT 4 //Cantidad de tlc5947 que uso
 #define TOTAL_CHANNELS (TLC5947_CHANNELS*TLC5947_DRIVER_AMOUNT)
 #define SPI_BYTE_AMOUNT (TLC5947_CHANNELS*12*TLC5947_DRIVER_AMOUNT/8) //Para solo una placa tengo que enviar 12 bits x 24 canales/8 bits = 36 Bytes
 
 //possible colors
-#define RED 48
-#define GREEN 49
-#define BLUE 50
+#define BLUE 0
+#define RED 1
+#define GREEN 2
 #define RGB 51 // currently not supported
 //led intensity
 #define HIGH 52

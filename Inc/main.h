@@ -58,11 +58,17 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define TLC5947_BLANK4_Pin GPIO_PIN_0
+#define TLC5947_BLANK4_GPIO_Port GPIOB
+#define TLC5947_BLANK3_Pin GPIO_PIN_1
+#define TLC5947_BLANK3_GPIO_Port GPIOB
 #define Hall_sensor_Pin GPIO_PIN_10
 #define Hall_sensor_GPIO_Port GPIOA
 #define Hall_sensor_EXTI_IRQn EXTI15_10_IRQn
-#define TLC5947_BLANK_Pin GPIO_PIN_4
-#define TLC5947_BLANK_GPIO_Port GPIOB
+#define TLC5947_BLANK2_Pin GPIO_PIN_3
+#define TLC5947_BLANK2_GPIO_Port GPIOB
+#define TLC5947_BLANK1_Pin GPIO_PIN_4
+#define TLC5947_BLANK1_GPIO_Port GPIOB
 #define TLC5947_XLAT_Pin GPIO_PIN_6
 #define TLC5947_XLAT_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */

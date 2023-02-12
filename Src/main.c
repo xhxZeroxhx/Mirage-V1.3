@@ -54,7 +54,7 @@ TIM_HandleTypeDef htim4;
 /* USER CODE BEGIN PV */
 
 uint8_t g_uartByte, g_UARTVal,g_TLCFlag = 0;//val received, val stored, Timer flag
-uint8_t g_imain=47,g_MotorSync = FALSE;//g_MotorSync is used to indicate that the motor is working in nominal speed
+uint8_t g_imain=0,g_MotorSync = FALSE;//g_MotorSync is used to indicate that the motor is working in nominal speed
 uint16_t g_TIMCounter = 0;
 
 /* USER CODE END PV */
@@ -106,11 +106,14 @@ int main(void)
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 //  HAL_UART_Receive_IT(&huart3, &g_uartByte, 1);//this triggers only once,uses interrupt and it has to be re-enabled
-  FillArray(BLUE,FABITEST);//it will be red
+//  FillArray(BLUE,FABITEST);//it will be red
   HAL_TIM_Base_Start_IT(&htim4);//Starts the TIM Base generation in interrupt mode. The oder mode just allows the count
 //  HAL_TIM_Base_Start_IT(&htim2);
 
-  HAL_GPIO_WritePin(TLC5947_BLANK_GPIO_Port, TLC5947_BLANK_Pin, GPIO_PIN_SET);//Turn off leds
+  HAL_GPIO_WritePin(TLC5947_BLANK1_GPIO_Port, TLC5947_BLANK1_Pin, GPIO_PIN_SET);//Turn off leds
+  HAL_GPIO_WritePin(TLC5947_BLANK2_GPIO_Port, TLC5947_BLANK2_Pin, GPIO_PIN_SET);//Turn off leds
+  HAL_GPIO_WritePin(TLC5947_BLANK3_GPIO_Port, TLC5947_BLANK3_Pin, GPIO_PIN_SET);//Turn off leds
+  HAL_GPIO_WritePin(TLC5947_BLANK4_GPIO_Port, TLC5947_BLANK4_Pin, GPIO_PIN_SET);//Turn off leds
 
 
   /* USER CODE END 2 */
@@ -124,14 +127,14 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  if(g_TLCFlag){//enter when TIM4 interrupts
 		  TLC_Update();//renew PWM
-		  g_imain ++;
 
-//		  if(g_imain > 54 ) //enables dimming of the leds
-		  if(g_imain > 50 ) //only enables RGB
-		  	g_imain = 48;
+	  if(g_imain > 2 ) //only enables RGB
+		  g_imain = 0;
 
-//		  FillArray(g_imain,FABITEST);
-		  FillArray(g_imain,LINE);
+	  g_imain ++;
+
+//	 FillArray(g_imain,FABITEST);
+		  FillArray(BLUE,LINE);
 		  g_TLCFlag = 0;//disable TLC Update
 	  }
 
@@ -278,7 +281,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, TLC5947_BLANK_Pin|TLC5947_XLAT_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, TLC5947_BLANK4_Pin|TLC5947_BLANK3_Pin|TLC5947_BLANK2_Pin|TLC5947_BLANK1_Pin 
+                          |TLC5947_XLAT_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
@@ -287,18 +291,20 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : TLC5947_BLANK4_Pin TLC5947_BLANK3_Pin TLC5947_BLANK2_Pin TLC5947_BLANK1_Pin 
+                           TLC5947_XLAT_Pin */
+  GPIO_InitStruct.Pin = TLC5947_BLANK4_Pin|TLC5947_BLANK3_Pin|TLC5947_BLANK2_Pin|TLC5947_BLANK1_Pin 
+                          |TLC5947_XLAT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
   /*Configure GPIO pin : Hall_sensor_Pin */
   GPIO_InitStruct.Pin = Hall_sensor_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(Hall_sensor_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : TLC5947_BLANK_Pin TLC5947_XLAT_Pin */
-  GPIO_InitStruct.Pin = TLC5947_BLANK_Pin|TLC5947_XLAT_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
