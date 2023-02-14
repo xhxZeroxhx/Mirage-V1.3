@@ -24,6 +24,7 @@
 #define TLC5947_DRIVER_AMOUNT 4 //Cantidad de tlc5947 que uso
 #define TOTAL_CHANNELS (TLC5947_CHANNELS*TLC5947_DRIVER_AMOUNT)
 #define SPI_BYTE_AMOUNT (TLC5947_CHANNELS*12*TLC5947_DRIVER_AMOUNT/8) //Para solo una placa tengo que enviar 12 bits x 24 canales/8 bits = 36 Bytes
+#define TOTAL_LEDS 32
 
 //possible colors
 #define BLUE 0
@@ -37,7 +38,7 @@
 //IMG or STR to display
 #define FABITEST 0
 #define LINE 1
-#define LETTERa 2
+#define LETTERo 2
 
 /* USER CODE END Includes */
 

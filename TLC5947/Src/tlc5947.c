@@ -3,7 +3,7 @@
 #include "main.h"
 /* Private user code ---------------------------------------------------------*/
 
-uint16_t g_LedsMatrix[1][TOTAL_CHANNELS]=
+uint8_t g_LedsMatrix[1][TOTAL_CHANNELS]=
 {
 //		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 //		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -367,10 +367,82 @@ uint16_t g_LedsMatrix[1][TOTAL_CHANNELS]=
 //		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 		}; // todo en 0, le pongo valores con FillArray, g_LedsMatrix indicates the led value per degree
 uint8_t g_spi_send[SPI_BYTE_AMOUNT]={},g_command =0;//g_command is used to indicate what to display with all the leds
+//uint8_t letterO[5][TOTAL_LEDS]=
+//{
+//		0,0,0,0,0,0,
+//		0,0,0,0,0,0,
+//		0,0,0,0,0,0,
+//		0,0,0,0,0,0,
+//		0,0,0,0,0,0,
+//		0,0,0,0,0,0,
+//		0,0,255,255,0,0,
+//		0,255,255,255,255,0,
+//		255,0,0,0,0,255,
+//		255,0,0,0,0,255,
+//		255,0,0,0,0,255,
+//		255,0,0,0,0,255,
+//		255,0,0,0,0,255,
+//		255,0,0,0,0,255,
+//		255,0,0,0,0,255,
+//		255,0,0,0,0,255,
+//		255,0,0,0,0,255,
+//		255,0,0,0,0,255,
+//		255,0,0,0,0,255,
+//		255,0,0,0,0,255,
+//		255,0,0,0,0,255,
+//		255,0,0,0,0,255,
+//		255,0,0,0,0,255,
+//		255,0,0,0,0,255,
+//		0,255,255,255,255,0,
+//		0,0,255,255,0,0,
+//		0,0,0,0,0,0,
+//		0,0,0,0,0,0,
+//		0,0,0,0,0,0,
+//		0,0,0,0,0,0,
+//		0,0,0,0,0,0,
+//		0,0,0,0,0,0
+//
+//};
+uint8_t letterO[TOTAL_LEDS][6]=
+{
+		-1,-1,-1,-1,-1,-1,
+		-1,-1,-1,-1,-1,-1,
+		-1,-1,-1,-1,-1,-1,
+		-1,-1,-1,-1,-1,-1,
+		-1,-1,-1,-1,-1,-1,
+		-1,-1,-1,-1,-1,-1,
+		-1,-1,3,3,-1,-1,
+		-1,0,0,0,0,-1,
+		44,-1,-1,-1,-1,44,
+		41,-1,-1,-1,-1,41,
+		38,-1,-1,-1,-1,38,
+		35,-1,-1,-1,-1,35,
+		32,-1,-1,-1,-1,32,
+		29,-1,-1,-1,-1,29,
+		26,-1,-1,-1,-1,26,
+		23,-1,-1,-1,-1,23,
+		68,-1,-1,-1,-1,68,
+		65,-1,-1,-1,-1,65,
+		62,-1,-1,-1,-1,62,
+		59,-1,-1,-1,-1,59,
+		56,-1,-1,-1,-1,56,
+		53,-1,-1,-1,-1,53,
+		50,-1,-1,-1,-1,50,
+		47,-1,-1,-1,-1,47,
+		-1,93,93,93,93,-1,
+		-1,-1,90,90,-1,-1,
+		-1,-1,-1,-1,-1,-1,
+		-1,-1,-1,-1,-1,-1,
+		-1,-1,-1,-1,-1,-1,
+		-1,-1,-1,-1,-1,-1,
+		-1,-1,-1,-1,-1,-1,
+		-1,-1,-1,-1,-1,-1
 
+};
 void TLC_Update(void)
 {
-	uint8_t si = 0;//Lo uso para el vector a enviar via SPI
+	uint8_t tlcDevice =1, tlcIndicator=TLC5947_CHANNELS*tlcDevice-1,matrixIndex=tlcIndicator,sendByteIndex = 0;//Lo uso para el vector a enviar via SPI
+
 
 
     HAL_GPIO_WritePin(TLC5947_BLANK1_GPIO_Port, TLC5947_BLANK1_Pin, GPIO_PIN_SET);
@@ -383,26 +455,57 @@ void TLC_Update(void)
     for (int8_t i = TOTAL_CHANNELS-1; i >= 0 ; i -= 2) // It to start at the first channel of each TLC5947, starts at U4
 
     {
+////    	if(sendByteIndex)
+//        uint8_t send1 = 0;
+//        uint8_t send = g_LedsMatrix[0][i] >> 4; // Sending MSB, for initial test we'll only use 0° since it's not spinning
+//
+//
+//        g_spi_send[sendByteIndex]=send;//
+//        sendByteIndex++;
+//
+//        send = (g_LedsMatrix[0][i] & 0x000F);
+//        send <<= 4;
+//
+//        send1 = (g_LedsMatrix[0][i-1]) >> 8;
+//        send |= send1; //me quedo con 4 bits menos significativos del canal i y 4 bits más significativos del canal i-1
+//
+//        g_spi_send[sendByteIndex]=send;//
+//        sendByteIndex++;
+//
+//        send = g_LedsMatrix[0][i-1];//Erasing 4 most significant bits from chanel i-1, and sending LSB from chanel i-1
+//
+//        g_spi_send[sendByteIndex]=send;//
+//        sendByteIndex++;
+
+
+
+        //
         uint8_t send1 = 0;
-        uint8_t send = g_LedsMatrix[0][i] >> 4; // Sending MSB, for initial test we'll only use 0° since it's not spinning
+        uint8_t send = g_LedsMatrix[0][matrixIndex] >> 4; // Sending MSB, for initial test we'll only use 0° since it's not spinning
 
 
-        g_spi_send[si]=send;//
-        si++;
+        g_spi_send[sendByteIndex]=send;//
+        sendByteIndex++;
 
-        send = (g_LedsMatrix[0][i] & 0x000F);
+        send = (g_LedsMatrix[0][matrixIndex] & 0x000F);
         send <<= 4;
 
-        send1 = (g_LedsMatrix[0][i-1]) >> 8;
+        send1 = (g_LedsMatrix[0][matrixIndex-1]) >> 8;
         send |= send1; //me quedo con 4 bits menos significativos del canal i y 4 bits más significativos del canal i-1
 
-        g_spi_send[si]=send;//
-        si++;
+        g_spi_send[sendByteIndex]=send;//
+        sendByteIndex++;
 
-        send = g_LedsMatrix[0][i-1];//Erasing 4 most significant bits from chanel i-1, and sending LSB from chanel i-1
+        send = g_LedsMatrix[0][matrixIndex-1];//Erasing 4 most significant bits from chanel i-1, and sending LSB from chanel i-1
 
-        g_spi_send[si]=send;//
-        si++;
+        g_spi_send[sendByteIndex]=send;//
+        sendByteIndex++;
+        matrixIndex-=2;
+        if(sendByteIndex%36==0){
+        	tlcDevice++;
+        	matrixIndex=tlcIndicator;
+        }
+
 
     }
 
@@ -430,9 +533,8 @@ void TLC_Update(void)
  */
 void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 {
-	static uint8_t increment = 3,array_index = 0;
-	static uint16_t intensity = 255;
-
+	static uint8_t increment = 3,array_index = 0,letCol = 0;
+	uint8_t letRow = 0;
 
 	switch(ledControl){
 
@@ -442,14 +544,61 @@ void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 			g_LedsMatrix[0][array_index]=0;
 
 		for (array_index=colorIntensity; array_index<TOTAL_CHANNELS;array_index+=increment)
-			g_LedsMatrix[0][array_index]=intensity;
+			g_LedsMatrix[0][array_index]=255;
 	break;
 
 	case 1:
 		//LINE
 		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
-			if(g_degreeCount == 200)
+//			if(g_degreeCount == 200)//when the motor is plugged change this to 179
+			if(array_index == 0)
 				g_LedsMatrix[0][array_index]=255;
+			else
+				 g_LedsMatrix[0][array_index]=0;
+		}
+
+	break;
+	case 2:
+		//LETTER O
+
+//		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
+//			if(g_degreeCount >= 30 && g_degreeCount<= 80)
+//			{//when the motor is plugged change this to 179
+//				g_LedsMatrix[0][array_index]=letterO[letCol][letRow];
+//				letRow++;
+//				if(letRow==31)
+//				{
+//					/*
+//					 * This cycle allows to go through the letter vector as TIM4 updates g_degreeCount
+//					 * the colum needs to change everytime the function is accessed, but the row must always start at 0
+//					 */
+//					letCol++;
+//					if(letCol>=6)
+//						letCol =0;
+//				}
+//			}
+//			else
+//				 g_LedsMatrix[0][array_index]=0;
+//		}
+
+
+		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
+			if(g_degreeCount >= 30 && g_degreeCount<= 80)
+			{
+				if(letterO[letRow][letCol]!=-1)
+					g_LedsMatrix[0][letterO[letRow][letCol]]=255;
+				letRow++;
+				if(letRow==31)
+				{
+					/*
+					 * This cycle allows to go through the letter vector as TIM4 updates g_degreeCount
+					 * the colum needs to change everytime the function is accessed, but the row must always start at 0
+					 */
+					letCol++;
+					if(letCol>=6)
+						letCol =0;
+				}
+			}
 			else
 				 g_LedsMatrix[0][array_index]=0;
 		}

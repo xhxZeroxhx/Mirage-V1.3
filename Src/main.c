@@ -136,7 +136,8 @@ int main(void)
 	  g_imain ++;
 
 //	 FillArray(g_imain,FABITEST);
-		  FillArray(BLUE,LINE);
+	  FillArray(BLUE,LINE);
+//		  FillArray(BLUE,LETTERo);
 		  g_TLCFlag = 0;//disable TLC Update
 	  }
 
@@ -348,8 +349,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //		if(g_MotorSync == TRUE)//uncomment when the board is connected to the motor
 //		{
 			g_TLCFlag = 1;//enable TLC Update
-			g_degreeCount+=50;
-			if (g_degreeCount>200)
+			g_degreeCount+=10;
+			if (g_degreeCount>=110)//reset val
 				g_degreeCount = 0;
 //		}
 	}
