@@ -73,6 +73,7 @@ void Error_Handler(void);
 #define TLC5947_XLAT_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
+extern uint16_t g_degreeCount;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

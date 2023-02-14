@@ -1,5 +1,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "TLC5947.h"
+#include "main.h"
 /* Private user code ---------------------------------------------------------*/
 
 uint16_t g_LedsMatrix[1][TOTAL_CHANNELS]=
@@ -372,14 +373,14 @@ void TLC_Update(void)
 	uint8_t si = 0;//Lo uso para el vector a enviar via SPI
 
 
-//    HAL_GPIO_WritePin(TLC5947_BLANK1_GPIO_Port, TLC5947_BLANK1_Pin, GPIO_PIN_SET);
-//    HAL_GPIO_WritePin(TLC5947_BLANK2_GPIO_Port, TLC5947_BLANK2_Pin, GPIO_PIN_SET);
-//    HAL_GPIO_WritePin(TLC5947_BLANK3_GPIO_Port, TLC5947_BLANK3_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(TLC5947_BLANK1_GPIO_Port, TLC5947_BLANK1_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(TLC5947_BLANK2_GPIO_Port, TLC5947_BLANK2_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(TLC5947_BLANK3_GPIO_Port, TLC5947_BLANK3_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(TLC5947_BLANK4_GPIO_Port, TLC5947_BLANK4_Pin, GPIO_PIN_SET);
 
 
-//    for (int8_t i = 0; i <TOTAL_CHANNELS; i += 2) // lleno
-    for (int8_t i = TOTAL_CHANNELS-1; i >= 0 ; i -= 2) // lleno
+//    for (int8_t i = 0; i <TOTAL_CHANNELS; i += 2) // It allows to start at the last channel of each TLC5947, starts at U1
+    for (int8_t i = TOTAL_CHANNELS-1; i >= 0 ; i -= 2) // It to start at the first channel of each TLC5947, starts at U4
 
     {
         uint8_t send1 = 0;
@@ -409,9 +410,9 @@ void TLC_Update(void)
 
     HAL_GPIO_WritePin(TLC5947_XLAT_GPIO_Port, TLC5947_XLAT_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(TLC5947_XLAT_GPIO_Port, TLC5947_XLAT_Pin, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(TLC5947_BLANK1_GPIO_Port, TLC5947_BLANK1_Pin, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(TLC5947_BLANK2_GPIO_Port, TLC5947_BLANK2_Pin, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(TLC5947_BLANK3_GPIO_Port, TLC5947_BLANK3_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(TLC5947_BLANK1_GPIO_Port, TLC5947_BLANK1_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(TLC5947_BLANK2_GPIO_Port, TLC5947_BLANK2_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(TLC5947_BLANK3_GPIO_Port, TLC5947_BLANK3_Pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(TLC5947_BLANK4_GPIO_Port, TLC5947_BLANK4_Pin, GPIO_PIN_RESET);
 
 }
@@ -430,7 +431,7 @@ void TLC_Update(void)
 void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 {
 	static uint8_t increment = 3,array_index = 0;
-	static uint16_t intensity = 512;
+	static uint16_t intensity = 255;
 
 
 	switch(ledControl){
@@ -447,10 +448,10 @@ void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 	case 1:
 		//LINE
 		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
-			if(array_index==9)
-				g_LedsMatrix[0][array_index]=0;
+			if(g_degreeCount == 179)
+				g_LedsMatrix[0][array_index]=255;
 			else
-				g_LedsMatrix[0][array_index]=512;
+				 g_LedsMatrix[0][array_index]=0;
 		}
 
 	break;

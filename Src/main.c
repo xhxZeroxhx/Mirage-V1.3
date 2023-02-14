@@ -55,7 +55,9 @@ TIM_HandleTypeDef htim4;
 
 uint8_t g_uartByte, g_UARTVal,g_TLCFlag = 0;//val received, val stored, Timer flag
 uint8_t g_imain=0,g_MotorSync = FALSE;//g_MotorSync is used to indicate that the motor is working in nominal speed
-uint16_t g_TIMCounter = 0;
+uint16_t g_TIMCounter = 0,g_degreeCount =0;
+
+
 
 /* USER CODE END PV */
 
@@ -342,9 +344,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //			__HAL_TIM_SET_AUTORELOAD(&htim2,(__HAL_TIM_GET_AUTORELOAD(&htim2)+2000));//p.1040 i add 1"
 //	}
 
-	if(htim->Instance== TIM4)
+	if(htim->Instance== TIM4){
 //		if(g_MotorSync == TRUE)//uncomment when the board is connected to the motor
+//		{
 			g_TLCFlag = 1;//enable TLC Update
+			g_degreeCount=179;
+//		}
+	}
 
 }
 
@@ -375,7 +381,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	   * i want a straight line at 90°, thus i have to wait (270-90)° = 180°
 	   */
 	  //for this to work i have to change the prescaler of timer 4 so that tim4 interrupts every 1ms
-
+	  g_degreeCount = 0;//indicates that a full spin has been made and thus degree count is reset to 0°
 	  __HAL_TIM_SET_PRESCALER(&htim4,35);//ERASE THIS ONCE TIM4 IS CONFIGURED FROM .ioc FILE
 
 	  __HAL_TIM_SET_AUTORELOAD(&htim4,__HAL_TIM_GET_AUTORELOAD(&htim4)*180*(360/g_tDelay));//1"*180°*time1°
