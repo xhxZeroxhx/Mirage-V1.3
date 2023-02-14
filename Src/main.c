@@ -136,8 +136,8 @@ int main(void)
 	  g_imain ++;
 
 //	 FillArray(g_imain,FABITEST);
-	  FillArray(BLUE,LINE);
-//		  FillArray(BLUE,LETTERo);
+//	  FillArray(BLUE,LINE);
+		  FillArray(BLUE,LETTERo);
 		  g_TLCFlag = 0;//disable TLC Update
 	  }
 
