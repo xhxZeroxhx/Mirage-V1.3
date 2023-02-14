@@ -348,7 +348,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //		if(g_MotorSync == TRUE)//uncomment when the board is connected to the motor
 //		{
 			g_TLCFlag = 1;//enable TLC Update
-			g_degreeCount=179;
+			g_degreeCount+=50;
+			if (g_degreeCount>200)
+				g_degreeCount = 0;
 //		}
 	}
 

@@ -448,7 +448,7 @@ void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 	case 1:
 		//LINE
 		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
-			if(g_degreeCount == 179)
+			if(g_degreeCount == 200)
 				g_LedsMatrix[0][array_index]=255;
 			else
 				 g_LedsMatrix[0][array_index]=0;
