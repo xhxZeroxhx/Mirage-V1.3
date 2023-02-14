@@ -503,7 +503,8 @@ void TLC_Update(void)
         matrixIndex-=2;
         if(sendByteIndex%36==0){
         	tlcDevice++;
-        	matrixIndex=tlcIndicator;
+//        	matrixIndex=tlcIndicator;
+        	matrixIndex=TLC5947_CHANNELS*tlcDevice-1;
         }
 
 
@@ -551,7 +552,7 @@ void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 		//LINE
 		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
 //			if(g_degreeCount == 200)//when the motor is plugged change this to 179
-			if(array_index == 0)
+			if(array_index == 0||array_index == 3||array_index == 90)
 				g_LedsMatrix[0][array_index]=255;
 			else
 				 g_LedsMatrix[0][array_index]=0;

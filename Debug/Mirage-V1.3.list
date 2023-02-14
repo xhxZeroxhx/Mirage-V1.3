@@ -5,25 +5,25 @@ Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
   0 .isr_vector   0000010c  08000000  08000000  00010000  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  1 .text         000017a4  0800010c  0800010c  0001010c  2**2
+  1 .text         000017c0  0800010c  0800010c  0001010c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       00000024  080018b0  080018b0  000118b0  2**2
+  2 .rodata       00000024  080018cc  080018cc  000118cc  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  080018d4  080018d4  000200cc  2**0
+  3 .ARM.extab    00000000  080018f0  080018f0  000200cc  2**0
                   CONTENTS
-  4 .ARM          00000000  080018d4  080018d4  000200cc  2**0
+  4 .ARM          00000000  080018f0  080018f0  000200cc  2**0
                   CONTENTS
-  5 .preinit_array 00000000  080018d4  080018d4  000200cc  2**0
+  5 .preinit_array 00000000  080018f0  080018f0  000200cc  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  080018d4  080018d4  000118d4  2**2
+  6 .init_array   00000004  080018f0  080018f0  000118f0  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .fini_array   00000004  080018d8  080018d8  000118d8  2**2
+  7 .fini_array   00000004  080018f4  080018f4  000118f4  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .data         000000cc  20000000  080018dc  00020000  2**2
+  8 .data         000000cc  20000000  080018f8  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          000001c4  200000cc  080019a8  000200cc  2**2
+  9 .bss          000001c4  200000cc  080019c4  000200cc  2**2
                   ALLOC
- 10 ._user_heap_stack 00000600  20000290  080019a8  00020290  2**0
+ 10 ._user_heap_stack 00000600  20000290  080019c4  00020290  2**0
                   ALLOC
  11 .ARM.attributes 00000029  00000000  00000000  000200cc  2**0
                   CONTENTS, READONLY
@@ -31,21 +31,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  13 .debug_abbrev 00002152  00000000  00000000  00031ff5  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_loc    000073b3  00000000  00000000  00034147  2**0
+ 14 .debug_loc    000073c9  00000000  00000000  00034147  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_aranges 00000a60  00000000  00000000  0003b500  2**3
+ 15 .debug_aranges 00000a60  00000000  00000000  0003b510  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_ranges 00000a20  00000000  00000000  0003bf60  2**3
+ 16 .debug_ranges 00000a20  00000000  00000000  0003bf70  2**3
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_macro  00015872  00000000  00000000  0003c980  2**0
+ 17 .debug_macro  00015872  00000000  00000000  0003c990  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_line   0000a32a  00000000  00000000  000521f2  2**0
+ 18 .debug_line   0000a337  00000000  00000000  00052202  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .debug_str    000714f3  00000000  00000000  0005c51c  2**0
+ 19 .debug_str    000714f3  00000000  00000000  0005c539  2**0
                   CONTENTS, READONLY, DEBUGGING
- 20 .comment      0000007b  00000000  00000000  000cda0f  2**0
+ 20 .comment      0000007b  00000000  00000000  000cda2c  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  00001b24  00000000  00000000  000cda8c  2**2
+ 21 .debug_frame  00001b24  00000000  00000000  000cdaa8  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -64,7 +64,7 @@ Disassembly of section .text:
  8000122:	bd10      	pop	{r4, pc}
  8000124:	200000cc 	.word	0x200000cc
  8000128:	00000000 	.word	0x00000000
- 800012c:	08001898 	.word	0x08001898
+ 800012c:	080018b4 	.word	0x080018b4
 
 08000130 <frame_dummy>:
  8000130:	b508      	push	{r3, lr}
@@ -76,7 +76,7 @@ Disassembly of section .text:
  800013e:	bd08      	pop	{r3, pc}
  8000140:	00000000 	.word	0x00000000
  8000144:	200000d0 	.word	0x200000d0
- 8000148:	08001898 	.word	0x08001898
+ 8000148:	080018b4 	.word	0x080018b4
 
 0800014c <HAL_InitTick>:
   *       implementation  in user file.
@@ -1314,7 +1314,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __NOP(void)
   return sysclockfreq;
  8000910:	e7ed      	b.n	80008ee <HAL_RCC_GetSysClockFreq+0x3a>
  8000912:	bf00      	nop
- 8000914:	080018b0 	.word	0x080018b0
+ 8000914:	080018cc 	.word	0x080018cc
  8000918:	40021000 	.word	0x40021000
  800091c:	003d0900 	.word	0x003d0900
  8000920:	007a1200 	.word	0x007a1200
@@ -1530,7 +1530,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __NOP(void)
  8000aae:	bf00      	nop
  8000ab0:	40022000 	.word	0x40022000
  8000ab4:	40021000 	.word	0x40021000
- 8000ab8:	080018c4 	.word	0x080018c4
+ 8000ab8:	080018e0 	.word	0x080018e0
  8000abc:	20000008 	.word	0x20000008
 
 08000ac0 <SPI_WaitFlagStateUntilTimeout>:
@@ -3069,7 +3069,7 @@ static void MX_GPIO_Init(void)
 	  FillArray(BLUE,LINE);
  80013cc:	2101      	movs	r1, #1
  80013ce:	2000      	movs	r0, #0
- 80013d0:	f000 f9c8 	bl	8001764 <FillArray>
+ 80013d0:	f000 f9d2 	bl	8001778 <FillArray>
 		  g_TLCFlag = 0;//disable TLC Update
  80013d4:	4b0b      	ldr	r3, [pc, #44]	; (8001404 <main+0x88>)
  80013d6:	2200      	movs	r2, #0
@@ -3677,14 +3677,14 @@ LoopFillZerobss:
  800166e:	f7ff ffc5 	bl	80015fc <SystemInit>
 /* Call static constructors */
     bl __libc_init_array
- 8001672:	f000 f8ed 	bl	8001850 <__libc_init_array>
+ 8001672:	f000 f8fb 	bl	800186c <__libc_init_array>
 /* Call the application's entry point.*/
   bl main
  8001676:	f7ff fe81 	bl	800137c <main>
   bx lr
  800167a:	4770      	bx	lr
   ldr r3, =_sidata
- 800167c:	080018dc 	.word	0x080018dc
+ 800167c:	080018f8 	.word	0x080018f8
   ldr r0, =_sdata
  8001680:	20000000 	.word	0x20000000
   ldr r3, =_edata
@@ -3717,7 +3717,7 @@ void TLC_Update(void)
 
 
     HAL_GPIO_WritePin(TLC5947_BLANK1_GPIO_Port, TLC5947_BLANK1_Pin, GPIO_PIN_SET);
- 8001696:	4c2f      	ldr	r4, [pc, #188]	; (8001754 <TLC_Update+0xc0>)
+ 8001696:	4c34      	ldr	r4, [pc, #208]	; (8001768 <TLC_Update+0xd4>)
  8001698:	2201      	movs	r2, #1
  800169a:	2110      	movs	r1, #16
  800169c:	4620      	mov	r0, r4
@@ -3743,328 +3743,339 @@ void TLC_Update(void)
     for (int8_t i = TOTAL_CHANNELS-1; i >= 0 ; i -= 2) // It to start at the first channel of each TLC5947, starts at U4
  80016c0:	205f      	movs	r0, #95	; 0x5f
 	uint8_t tlcDevice =1, tlcIndicator=TLC5947_CHANNELS*tlcDevice-1,matrixIndex=tlcIndicator,sendByteIndex = 0;//Lo uso para el vector a enviar via SPI
- 80016c2:	2200      	movs	r2, #0
- 80016c4:	2117      	movs	r1, #23
+ 80016c2:	2100      	movs	r1, #0
+ 80016c4:	2317      	movs	r3, #23
+ 80016c6:	2501      	movs	r5, #1
     for (int8_t i = TOTAL_CHANNELS-1; i >= 0 ; i -= 2) // It to start at the first channel of each TLC5947, starts at U4
- 80016c6:	e001      	b.n	80016cc <TLC_Update+0x38>
- 80016c8:	3802      	subs	r0, #2
- 80016ca:	b240      	sxtb	r0, r0
- 80016cc:	2800      	cmp	r0, #0
- 80016ce:	db1e      	blt.n	800170e <TLC_Update+0x7a>
+ 80016c8:	e001      	b.n	80016ce <TLC_Update+0x3a>
+ 80016ca:	3802      	subs	r0, #2
+ 80016cc:	b240      	sxtb	r0, r0
+ 80016ce:	2800      	cmp	r0, #0
+ 80016d0:	db27      	blt.n	8001722 <TLC_Update+0x8e>
 
 
 
         //
         uint8_t send1 = 0;
         uint8_t send = g_LedsMatrix[0][matrixIndex] >> 4; // Sending MSB, for initial test we'll only use 0° since it's not spinning
- 80016d0:	4e21      	ldr	r6, [pc, #132]	; (8001758 <TLC_Update+0xc4>)
- 80016d2:	5c73      	ldrb	r3, [r6, r1]
- 80016d4:	091d      	lsrs	r5, r3, #4
+ 80016d2:	4f26      	ldr	r7, [pc, #152]	; (800176c <TLC_Update+0xd8>)
+ 80016d4:	5cfa      	ldrb	r2, [r7, r3]
+ 80016d6:	0916      	lsrs	r6, r2, #4
 
 
         g_spi_send[sendByteIndex]=send;//
- 80016d6:	4c21      	ldr	r4, [pc, #132]	; (800175c <TLC_Update+0xc8>)
- 80016d8:	54a5      	strb	r5, [r4, r2]
+ 80016d8:	4c25      	ldr	r4, [pc, #148]	; (8001770 <TLC_Update+0xdc>)
+ 80016da:	5466      	strb	r6, [r4, r1]
         sendByteIndex++;
- 80016da:	1c55      	adds	r5, r2, #1
- 80016dc:	b2ed      	uxtb	r5, r5
+ 80016dc:	1c4e      	adds	r6, r1, #1
+ 80016de:	b2f6      	uxtb	r6, r6
 
         send = (g_LedsMatrix[0][matrixIndex] & 0x000F);
         send <<= 4;
 
         send1 = (g_LedsMatrix[0][matrixIndex-1]) >> 8;
- 80016de:	1e4f      	subs	r7, r1, #1
- 80016e0:	5df6      	ldrb	r6, [r6, r7]
+ 80016e0:	f103 3cff 	add.w	ip, r3, #4294967295
+ 80016e4:	f817 700c 	ldrb.w	r7, [r7, ip]
         send |= send1; //me quedo con 4 bits menos significativos del canal i y 4 bits más significativos del canal i-1
- 80016e2:	011b      	lsls	r3, r3, #4
+ 80016e8:	0112      	lsls	r2, r2, #4
 
         g_spi_send[sendByteIndex]=send;//
- 80016e4:	5563      	strb	r3, [r4, r5]
+ 80016ea:	55a2      	strb	r2, [r4, r6]
         sendByteIndex++;
- 80016e6:	1c93      	adds	r3, r2, #2
- 80016e8:	b2db      	uxtb	r3, r3
+ 80016ec:	1c8a      	adds	r2, r1, #2
+ 80016ee:	b2d2      	uxtb	r2, r2
 
         send = g_LedsMatrix[0][matrixIndex-1];//Erasing 4 most significant bits from chanel i-1, and sending LSB from chanel i-1
 
         g_spi_send[sendByteIndex]=send;//
- 80016ea:	54e6      	strb	r6, [r4, r3]
+ 80016f0:	54a7      	strb	r7, [r4, r2]
         sendByteIndex++;
- 80016ec:	3203      	adds	r2, #3
- 80016ee:	b2d2      	uxtb	r2, r2
+ 80016f2:	3103      	adds	r1, #3
+ 80016f4:	b2c9      	uxtb	r1, r1
         matrixIndex-=2;
- 80016f0:	3902      	subs	r1, #2
- 80016f2:	b2c9      	uxtb	r1, r1
+ 80016f6:	3b02      	subs	r3, #2
+ 80016f8:	b2db      	uxtb	r3, r3
         if(sendByteIndex%36==0){
- 80016f4:	4b1a      	ldr	r3, [pc, #104]	; (8001760 <TLC_Update+0xcc>)
- 80016f6:	fba3 4302 	umull	r4, r3, r3, r2
- 80016fa:	08db      	lsrs	r3, r3, #3
- 80016fc:	eb03 03c3 	add.w	r3, r3, r3, lsl #3
- 8001700:	009c      	lsls	r4, r3, #2
- 8001702:	1b14      	subs	r4, r2, r4
- 8001704:	f014 0fff 	tst.w	r4, #255	; 0xff
- 8001708:	d1de      	bne.n	80016c8 <TLC_Update+0x34>
+ 80016fa:	4a1e      	ldr	r2, [pc, #120]	; (8001774 <TLC_Update+0xe0>)
+ 80016fc:	fba2 4201 	umull	r4, r2, r2, r1
+ 8001700:	08d2      	lsrs	r2, r2, #3
+ 8001702:	eb02 02c2 	add.w	r2, r2, r2, lsl #3
+ 8001706:	0094      	lsls	r4, r2, #2
+ 8001708:	1b0c      	subs	r4, r1, r4
+ 800170a:	f014 0fff 	tst.w	r4, #255	; 0xff
+ 800170e:	d1dc      	bne.n	80016ca <TLC_Update+0x36>
         	tlcDevice++;
-        	matrixIndex=tlcIndicator;
- 800170a:	2117      	movs	r1, #23
- 800170c:	e7dc      	b.n	80016c8 <TLC_Update+0x34>
+ 8001710:	3501      	adds	r5, #1
+ 8001712:	b2ed      	uxtb	r5, r5
+//        	matrixIndex=tlcIndicator;
+        	matrixIndex=TLC5947_CHANNELS*tlcDevice-1;
+ 8001714:	eb05 0245 	add.w	r2, r5, r5, lsl #1
+ 8001718:	00d3      	lsls	r3, r2, #3
+ 800171a:	b2db      	uxtb	r3, r3
+ 800171c:	3b01      	subs	r3, #1
+ 800171e:	b2db      	uxtb	r3, r3
+ 8001720:	e7d3      	b.n	80016ca <TLC_Update+0x36>
         }
 
 
     }
 
     TLC_Write(g_spi_send);
- 800170e:	4813      	ldr	r0, [pc, #76]	; (800175c <TLC_Update+0xc8>)
- 8001710:	f7ff feda 	bl	80014c8 <TLC_Write>
+ 8001722:	4813      	ldr	r0, [pc, #76]	; (8001770 <TLC_Update+0xdc>)
+ 8001724:	f7ff fed0 	bl	80014c8 <TLC_Write>
 
     HAL_GPIO_WritePin(TLC5947_XLAT_GPIO_Port, TLC5947_XLAT_Pin, GPIO_PIN_SET);
- 8001714:	4c0f      	ldr	r4, [pc, #60]	; (8001754 <TLC_Update+0xc0>)
- 8001716:	2201      	movs	r2, #1
- 8001718:	2140      	movs	r1, #64	; 0x40
- 800171a:	4620      	mov	r0, r4
- 800171c:	f7fe feb2 	bl	8000484 <HAL_GPIO_WritePin>
-    HAL_GPIO_WritePin(TLC5947_XLAT_GPIO_Port, TLC5947_XLAT_Pin, GPIO_PIN_RESET);
- 8001720:	2200      	movs	r2, #0
- 8001722:	2140      	movs	r1, #64	; 0x40
- 8001724:	4620      	mov	r0, r4
- 8001726:	f7fe fead 	bl	8000484 <HAL_GPIO_WritePin>
-    HAL_GPIO_WritePin(TLC5947_BLANK1_GPIO_Port, TLC5947_BLANK1_Pin, GPIO_PIN_RESET);
- 800172a:	2200      	movs	r2, #0
- 800172c:	2110      	movs	r1, #16
+ 8001728:	4c0f      	ldr	r4, [pc, #60]	; (8001768 <TLC_Update+0xd4>)
+ 800172a:	2201      	movs	r2, #1
+ 800172c:	2140      	movs	r1, #64	; 0x40
  800172e:	4620      	mov	r0, r4
  8001730:	f7fe fea8 	bl	8000484 <HAL_GPIO_WritePin>
-    HAL_GPIO_WritePin(TLC5947_BLANK2_GPIO_Port, TLC5947_BLANK2_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(TLC5947_XLAT_GPIO_Port, TLC5947_XLAT_Pin, GPIO_PIN_RESET);
  8001734:	2200      	movs	r2, #0
- 8001736:	2108      	movs	r1, #8
+ 8001736:	2140      	movs	r1, #64	; 0x40
  8001738:	4620      	mov	r0, r4
  800173a:	f7fe fea3 	bl	8000484 <HAL_GPIO_WritePin>
-    HAL_GPIO_WritePin(TLC5947_BLANK3_GPIO_Port, TLC5947_BLANK3_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(TLC5947_BLANK1_GPIO_Port, TLC5947_BLANK1_Pin, GPIO_PIN_RESET);
  800173e:	2200      	movs	r2, #0
- 8001740:	2102      	movs	r1, #2
+ 8001740:	2110      	movs	r1, #16
  8001742:	4620      	mov	r0, r4
  8001744:	f7fe fe9e 	bl	8000484 <HAL_GPIO_WritePin>
-    HAL_GPIO_WritePin(TLC5947_BLANK4_GPIO_Port, TLC5947_BLANK4_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(TLC5947_BLANK2_GPIO_Port, TLC5947_BLANK2_Pin, GPIO_PIN_RESET);
  8001748:	2200      	movs	r2, #0
- 800174a:	2101      	movs	r1, #1
+ 800174a:	2108      	movs	r1, #8
  800174c:	4620      	mov	r0, r4
  800174e:	f7fe fe99 	bl	8000484 <HAL_GPIO_WritePin>
+    HAL_GPIO_WritePin(TLC5947_BLANK3_GPIO_Port, TLC5947_BLANK3_Pin, GPIO_PIN_RESET);
+ 8001752:	2200      	movs	r2, #0
+ 8001754:	2102      	movs	r1, #2
+ 8001756:	4620      	mov	r0, r4
+ 8001758:	f7fe fe94 	bl	8000484 <HAL_GPIO_WritePin>
+    HAL_GPIO_WritePin(TLC5947_BLANK4_GPIO_Port, TLC5947_BLANK4_Pin, GPIO_PIN_RESET);
+ 800175c:	2200      	movs	r2, #0
+ 800175e:	2101      	movs	r1, #1
+ 8001760:	4620      	mov	r0, r4
+ 8001762:	f7fe fe8f 	bl	8000484 <HAL_GPIO_WritePin>
 
 }
- 8001752:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
- 8001754:	40010c00 	.word	0x40010c00
- 8001758:	200000f8 	.word	0x200000f8
- 800175c:	20000158 	.word	0x20000158
- 8001760:	38e38e39 	.word	0x38e38e39
+ 8001766:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
+ 8001768:	40010c00 	.word	0x40010c00
+ 800176c:	200000f8 	.word	0x200000f8
+ 8001770:	20000158 	.word	0x20000158
+ 8001774:	38e38e39 	.word	0x38e38e39
 
-08001764 <FillArray>:
+08001778 <FillArray>:
 void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 {
 	static uint8_t increment = 3,array_index = 0,letCol = 0;
 	uint8_t letRow = 0;
 
 	switch(ledControl){
- 8001764:	2901      	cmp	r1, #1
- 8001766:	d01f      	beq.n	80017a8 <FillArray+0x44>
- 8001768:	b111      	cbz	r1, 8001770 <FillArray+0xc>
- 800176a:	2902      	cmp	r1, #2
- 800176c:	d05b      	beq.n	8001826 <FillArray+0xc2>
- 800176e:	4770      	bx	lr
+ 8001778:	2901      	cmp	r1, #1
+ 800177a:	d01f      	beq.n	80017bc <FillArray+0x44>
+ 800177c:	b111      	cbz	r1, 8001784 <FillArray+0xc>
+ 800177e:	2902      	cmp	r1, #2
+ 8001780:	d05f      	beq.n	8001842 <FillArray+0xca>
+ 8001782:	4770      	bx	lr
 
 	case 0:
 		//FABITEST
 		for (array_index = 0; array_index<TOTAL_CHANNELS;array_index++)
- 8001770:	4b32      	ldr	r3, [pc, #200]	; (800183c <FillArray+0xd8>)
- 8001772:	2200      	movs	r2, #0
- 8001774:	701a      	strb	r2, [r3, #0]
- 8001776:	e005      	b.n	8001784 <FillArray+0x20>
+ 8001784:	4b34      	ldr	r3, [pc, #208]	; (8001858 <FillArray+0xe0>)
+ 8001786:	2200      	movs	r2, #0
+ 8001788:	701a      	strb	r2, [r3, #0]
+ 800178a:	e005      	b.n	8001798 <FillArray+0x20>
 			g_LedsMatrix[0][array_index]=0;
- 8001778:	4a31      	ldr	r2, [pc, #196]	; (8001840 <FillArray+0xdc>)
- 800177a:	2100      	movs	r1, #0
- 800177c:	54d1      	strb	r1, [r2, r3]
+ 800178c:	4a33      	ldr	r2, [pc, #204]	; (800185c <FillArray+0xe4>)
+ 800178e:	2100      	movs	r1, #0
+ 8001790:	54d1      	strb	r1, [r2, r3]
 		for (array_index = 0; array_index<TOTAL_CHANNELS;array_index++)
- 800177e:	3301      	adds	r3, #1
- 8001780:	4a2e      	ldr	r2, [pc, #184]	; (800183c <FillArray+0xd8>)
- 8001782:	7013      	strb	r3, [r2, #0]
- 8001784:	4b2d      	ldr	r3, [pc, #180]	; (800183c <FillArray+0xd8>)
- 8001786:	781b      	ldrb	r3, [r3, #0]
- 8001788:	2b5f      	cmp	r3, #95	; 0x5f
- 800178a:	d9f5      	bls.n	8001778 <FillArray+0x14>
+ 8001792:	3301      	adds	r3, #1
+ 8001794:	4a30      	ldr	r2, [pc, #192]	; (8001858 <FillArray+0xe0>)
+ 8001796:	7013      	strb	r3, [r2, #0]
+ 8001798:	4b2f      	ldr	r3, [pc, #188]	; (8001858 <FillArray+0xe0>)
+ 800179a:	781b      	ldrb	r3, [r3, #0]
+ 800179c:	2b5f      	cmp	r3, #95	; 0x5f
+ 800179e:	d9f5      	bls.n	800178c <FillArray+0x14>
 
 		for (array_index=colorIntensity; array_index<TOTAL_CHANNELS;array_index+=increment)
- 800178c:	4b2b      	ldr	r3, [pc, #172]	; (800183c <FillArray+0xd8>)
- 800178e:	7018      	strb	r0, [r3, #0]
- 8001790:	e005      	b.n	800179e <FillArray+0x3a>
+ 80017a0:	4b2d      	ldr	r3, [pc, #180]	; (8001858 <FillArray+0xe0>)
+ 80017a2:	7018      	strb	r0, [r3, #0]
+ 80017a4:	e005      	b.n	80017b2 <FillArray+0x3a>
 			g_LedsMatrix[0][array_index]=255;
- 8001792:	4a2b      	ldr	r2, [pc, #172]	; (8001840 <FillArray+0xdc>)
- 8001794:	21ff      	movs	r1, #255	; 0xff
- 8001796:	54d1      	strb	r1, [r2, r3]
+ 80017a6:	4a2d      	ldr	r2, [pc, #180]	; (800185c <FillArray+0xe4>)
+ 80017a8:	21ff      	movs	r1, #255	; 0xff
+ 80017aa:	54d1      	strb	r1, [r2, r3]
 		for (array_index=colorIntensity; array_index<TOTAL_CHANNELS;array_index+=increment)
- 8001798:	3303      	adds	r3, #3
- 800179a:	4a28      	ldr	r2, [pc, #160]	; (800183c <FillArray+0xd8>)
- 800179c:	7013      	strb	r3, [r2, #0]
- 800179e:	4b27      	ldr	r3, [pc, #156]	; (800183c <FillArray+0xd8>)
- 80017a0:	781b      	ldrb	r3, [r3, #0]
- 80017a2:	2b5f      	cmp	r3, #95	; 0x5f
- 80017a4:	d9f5      	bls.n	8001792 <FillArray+0x2e>
- 80017a6:	4770      	bx	lr
+ 80017ac:	3303      	adds	r3, #3
+ 80017ae:	4a2a      	ldr	r2, [pc, #168]	; (8001858 <FillArray+0xe0>)
+ 80017b0:	7013      	strb	r3, [r2, #0]
+ 80017b2:	4b29      	ldr	r3, [pc, #164]	; (8001858 <FillArray+0xe0>)
+ 80017b4:	781b      	ldrb	r3, [r3, #0]
+ 80017b6:	2b5f      	cmp	r3, #95	; 0x5f
+ 80017b8:	d9f5      	bls.n	80017a6 <FillArray+0x2e>
+ 80017ba:	4770      	bx	lr
 	break;
 
 	case 1:
 		//LINE
 		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
- 80017a8:	4b24      	ldr	r3, [pc, #144]	; (800183c <FillArray+0xd8>)
- 80017aa:	7018      	strb	r0, [r3, #0]
- 80017ac:	e005      	b.n	80017ba <FillArray+0x56>
+ 80017bc:	4b26      	ldr	r3, [pc, #152]	; (8001858 <FillArray+0xe0>)
+ 80017be:	7018      	strb	r0, [r3, #0]
+ 80017c0:	e005      	b.n	80017ce <FillArray+0x56>
 //			if(g_degreeCount == 200)//when the motor is plugged change this to 179
-			if(array_index == 0)
+			if(array_index == 0||array_index == 3||array_index == 90)
 				g_LedsMatrix[0][array_index]=255;
+ 80017c2:	4a26      	ldr	r2, [pc, #152]	; (800185c <FillArray+0xe4>)
+ 80017c4:	21ff      	movs	r1, #255	; 0xff
+ 80017c6:	54d1      	strb	r1, [r2, r3]
+		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
+ 80017c8:	3303      	adds	r3, #3
+ 80017ca:	4a23      	ldr	r2, [pc, #140]	; (8001858 <FillArray+0xe0>)
+ 80017cc:	7013      	strb	r3, [r2, #0]
+ 80017ce:	4b22      	ldr	r3, [pc, #136]	; (8001858 <FillArray+0xe0>)
+ 80017d0:	781b      	ldrb	r3, [r3, #0]
+ 80017d2:	2b5f      	cmp	r3, #95	; 0x5f
+ 80017d4:	d809      	bhi.n	80017ea <FillArray+0x72>
+			if(array_index == 0||array_index == 3||array_index == 90)
+ 80017d6:	2b00      	cmp	r3, #0
+ 80017d8:	d0f3      	beq.n	80017c2 <FillArray+0x4a>
+ 80017da:	2b03      	cmp	r3, #3
+ 80017dc:	d0f1      	beq.n	80017c2 <FillArray+0x4a>
+ 80017de:	2b5a      	cmp	r3, #90	; 0x5a
+ 80017e0:	d0ef      	beq.n	80017c2 <FillArray+0x4a>
 			else
 				 g_LedsMatrix[0][array_index]=0;
- 80017ae:	4a24      	ldr	r2, [pc, #144]	; (8001840 <FillArray+0xdc>)
- 80017b0:	2100      	movs	r1, #0
- 80017b2:	54d1      	strb	r1, [r2, r3]
-		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
- 80017b4:	3303      	adds	r3, #3
- 80017b6:	4a21      	ldr	r2, [pc, #132]	; (800183c <FillArray+0xd8>)
- 80017b8:	7013      	strb	r3, [r2, #0]
- 80017ba:	4b20      	ldr	r3, [pc, #128]	; (800183c <FillArray+0xd8>)
- 80017bc:	781b      	ldrb	r3, [r3, #0]
- 80017be:	2b5f      	cmp	r3, #95	; 0x5f
- 80017c0:	d805      	bhi.n	80017ce <FillArray+0x6a>
-			if(array_index == 0)
- 80017c2:	2b00      	cmp	r3, #0
- 80017c4:	d1f3      	bne.n	80017ae <FillArray+0x4a>
-				g_LedsMatrix[0][array_index]=255;
- 80017c6:	4a1e      	ldr	r2, [pc, #120]	; (8001840 <FillArray+0xdc>)
- 80017c8:	21ff      	movs	r1, #255	; 0xff
- 80017ca:	54d1      	strb	r1, [r2, r3]
- 80017cc:	e7f2      	b.n	80017b4 <FillArray+0x50>
- 80017ce:	4770      	bx	lr
+ 80017e2:	4a1e      	ldr	r2, [pc, #120]	; (800185c <FillArray+0xe4>)
+ 80017e4:	2100      	movs	r1, #0
+ 80017e6:	54d1      	strb	r1, [r2, r3]
+ 80017e8:	e7ee      	b.n	80017c8 <FillArray+0x50>
+ 80017ea:	4770      	bx	lr
 					if(letCol>=6)
 						letCol =0;
 				}
 			}
 			else
 				 g_LedsMatrix[0][array_index]=0;
- 80017d0:	4b1b      	ldr	r3, [pc, #108]	; (8001840 <FillArray+0xdc>)
- 80017d2:	2000      	movs	r0, #0
- 80017d4:	5498      	strb	r0, [r3, r2]
+ 80017ec:	4b1b      	ldr	r3, [pc, #108]	; (800185c <FillArray+0xe4>)
+ 80017ee:	2000      	movs	r0, #0
+ 80017f0:	5498      	strb	r0, [r3, r2]
 		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
- 80017d6:	3203      	adds	r2, #3
- 80017d8:	4b18      	ldr	r3, [pc, #96]	; (800183c <FillArray+0xd8>)
- 80017da:	701a      	strb	r2, [r3, #0]
- 80017dc:	4b17      	ldr	r3, [pc, #92]	; (800183c <FillArray+0xd8>)
- 80017de:	781a      	ldrb	r2, [r3, #0]
- 80017e0:	2a5f      	cmp	r2, #95	; 0x5f
- 80017e2:	d81e      	bhi.n	8001822 <FillArray+0xbe>
+ 80017f2:	3203      	adds	r2, #3
+ 80017f4:	4b18      	ldr	r3, [pc, #96]	; (8001858 <FillArray+0xe0>)
+ 80017f6:	701a      	strb	r2, [r3, #0]
+ 80017f8:	4b17      	ldr	r3, [pc, #92]	; (8001858 <FillArray+0xe0>)
+ 80017fa:	781a      	ldrb	r2, [r3, #0]
+ 80017fc:	2a5f      	cmp	r2, #95	; 0x5f
+ 80017fe:	d81e      	bhi.n	800183e <FillArray+0xc6>
 			if(g_degreeCount >= 30 && g_degreeCount<= 80)
- 80017e4:	4b17      	ldr	r3, [pc, #92]	; (8001844 <FillArray+0xe0>)
- 80017e6:	881b      	ldrh	r3, [r3, #0]
- 80017e8:	3b1e      	subs	r3, #30
- 80017ea:	b29b      	uxth	r3, r3
- 80017ec:	2b32      	cmp	r3, #50	; 0x32
- 80017ee:	d8ef      	bhi.n	80017d0 <FillArray+0x6c>
+ 8001800:	4b17      	ldr	r3, [pc, #92]	; (8001860 <FillArray+0xe8>)
+ 8001802:	881b      	ldrh	r3, [r3, #0]
+ 8001804:	3b1e      	subs	r3, #30
+ 8001806:	b29b      	uxth	r3, r3
+ 8001808:	2b32      	cmp	r3, #50	; 0x32
+ 800180a:	d8ef      	bhi.n	80017ec <FillArray+0x74>
 					g_LedsMatrix[0][letterO[letRow][letCol]]=255;
- 80017f0:	4b15      	ldr	r3, [pc, #84]	; (8001848 <FillArray+0xe4>)
- 80017f2:	781b      	ldrb	r3, [r3, #0]
- 80017f4:	eb01 0041 	add.w	r0, r1, r1, lsl #1
- 80017f8:	0044      	lsls	r4, r0, #1
- 80017fa:	4814      	ldr	r0, [pc, #80]	; (800184c <FillArray+0xe8>)
- 80017fc:	4420      	add	r0, r4
- 80017fe:	5cc0      	ldrb	r0, [r0, r3]
- 8001800:	4c0f      	ldr	r4, [pc, #60]	; (8001840 <FillArray+0xdc>)
- 8001802:	25ff      	movs	r5, #255	; 0xff
- 8001804:	5425      	strb	r5, [r4, r0]
+ 800180c:	4b15      	ldr	r3, [pc, #84]	; (8001864 <FillArray+0xec>)
+ 800180e:	781b      	ldrb	r3, [r3, #0]
+ 8001810:	eb01 0041 	add.w	r0, r1, r1, lsl #1
+ 8001814:	0044      	lsls	r4, r0, #1
+ 8001816:	4814      	ldr	r0, [pc, #80]	; (8001868 <FillArray+0xf0>)
+ 8001818:	4420      	add	r0, r4
+ 800181a:	5cc0      	ldrb	r0, [r0, r3]
+ 800181c:	4c0f      	ldr	r4, [pc, #60]	; (800185c <FillArray+0xe4>)
+ 800181e:	25ff      	movs	r5, #255	; 0xff
+ 8001820:	5425      	strb	r5, [r4, r0]
 				letRow++;
- 8001806:	3101      	adds	r1, #1
- 8001808:	b2c9      	uxtb	r1, r1
+ 8001822:	3101      	adds	r1, #1
+ 8001824:	b2c9      	uxtb	r1, r1
 				if(letRow==31)
- 800180a:	291f      	cmp	r1, #31
- 800180c:	d1e3      	bne.n	80017d6 <FillArray+0x72>
+ 8001826:	291f      	cmp	r1, #31
+ 8001828:	d1e3      	bne.n	80017f2 <FillArray+0x7a>
 					letCol++;
- 800180e:	3301      	adds	r3, #1
- 8001810:	b2db      	uxtb	r3, r3
- 8001812:	480d      	ldr	r0, [pc, #52]	; (8001848 <FillArray+0xe4>)
- 8001814:	7003      	strb	r3, [r0, #0]
+ 800182a:	3301      	adds	r3, #1
+ 800182c:	b2db      	uxtb	r3, r3
+ 800182e:	480d      	ldr	r0, [pc, #52]	; (8001864 <FillArray+0xec>)
+ 8001830:	7003      	strb	r3, [r0, #0]
 					if(letCol>=6)
- 8001816:	2b05      	cmp	r3, #5
- 8001818:	d9dd      	bls.n	80017d6 <FillArray+0x72>
+ 8001832:	2b05      	cmp	r3, #5
+ 8001834:	d9dd      	bls.n	80017f2 <FillArray+0x7a>
 						letCol =0;
- 800181a:	4603      	mov	r3, r0
- 800181c:	2000      	movs	r0, #0
- 800181e:	7018      	strb	r0, [r3, #0]
- 8001820:	e7d9      	b.n	80017d6 <FillArray+0x72>
+ 8001836:	4603      	mov	r3, r0
+ 8001838:	2000      	movs	r0, #0
+ 800183a:	7018      	strb	r0, [r3, #0]
+ 800183c:	e7d9      	b.n	80017f2 <FillArray+0x7a>
 
 	break;
 
 	}
 
 }
- 8001822:	bc30      	pop	{r4, r5}
- 8001824:	4770      	bx	lr
+ 800183e:	bc30      	pop	{r4, r5}
+ 8001840:	4770      	bx	lr
 		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
- 8001826:	4b05      	ldr	r3, [pc, #20]	; (800183c <FillArray+0xd8>)
- 8001828:	7018      	strb	r0, [r3, #0]
+ 8001842:	4b05      	ldr	r3, [pc, #20]	; (8001858 <FillArray+0xe0>)
+ 8001844:	7018      	strb	r0, [r3, #0]
 	uint8_t letRow = 0;
- 800182a:	2100      	movs	r1, #0
+ 8001846:	2100      	movs	r1, #0
 		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
- 800182c:	4b03      	ldr	r3, [pc, #12]	; (800183c <FillArray+0xd8>)
- 800182e:	781a      	ldrb	r2, [r3, #0]
- 8001830:	2a5f      	cmp	r2, #95	; 0x5f
- 8001832:	d801      	bhi.n	8001838 <FillArray+0xd4>
+ 8001848:	4b03      	ldr	r3, [pc, #12]	; (8001858 <FillArray+0xe0>)
+ 800184a:	781a      	ldrb	r2, [r3, #0]
+ 800184c:	2a5f      	cmp	r2, #95	; 0x5f
+ 800184e:	d801      	bhi.n	8001854 <FillArray+0xdc>
 {
- 8001834:	b430      	push	{r4, r5}
- 8001836:	e7d5      	b.n	80017e4 <FillArray+0x80>
- 8001838:	4770      	bx	lr
- 800183a:	bf00      	nop
- 800183c:	200000f4 	.word	0x200000f4
- 8001840:	200000f8 	.word	0x200000f8
- 8001844:	200000ee 	.word	0x200000ee
- 8001848:	200001e8 	.word	0x200001e8
- 800184c:	2000000c 	.word	0x2000000c
+ 8001850:	b430      	push	{r4, r5}
+ 8001852:	e7d5      	b.n	8001800 <FillArray+0x88>
+ 8001854:	4770      	bx	lr
+ 8001856:	bf00      	nop
+ 8001858:	200000f4 	.word	0x200000f4
+ 800185c:	200000f8 	.word	0x200000f8
+ 8001860:	200000ee 	.word	0x200000ee
+ 8001864:	200001e8 	.word	0x200001e8
+ 8001868:	2000000c 	.word	0x2000000c
 
-08001850 <__libc_init_array>:
- 8001850:	b570      	push	{r4, r5, r6, lr}
- 8001852:	2500      	movs	r5, #0
- 8001854:	4e0c      	ldr	r6, [pc, #48]	; (8001888 <__libc_init_array+0x38>)
- 8001856:	4c0d      	ldr	r4, [pc, #52]	; (800188c <__libc_init_array+0x3c>)
- 8001858:	1ba4      	subs	r4, r4, r6
- 800185a:	10a4      	asrs	r4, r4, #2
- 800185c:	42a5      	cmp	r5, r4
- 800185e:	d109      	bne.n	8001874 <__libc_init_array+0x24>
- 8001860:	f000 f81a 	bl	8001898 <_init>
- 8001864:	2500      	movs	r5, #0
- 8001866:	4e0a      	ldr	r6, [pc, #40]	; (8001890 <__libc_init_array+0x40>)
- 8001868:	4c0a      	ldr	r4, [pc, #40]	; (8001894 <__libc_init_array+0x44>)
- 800186a:	1ba4      	subs	r4, r4, r6
- 800186c:	10a4      	asrs	r4, r4, #2
- 800186e:	42a5      	cmp	r5, r4
- 8001870:	d105      	bne.n	800187e <__libc_init_array+0x2e>
- 8001872:	bd70      	pop	{r4, r5, r6, pc}
- 8001874:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
- 8001878:	4798      	blx	r3
- 800187a:	3501      	adds	r5, #1
- 800187c:	e7ee      	b.n	800185c <__libc_init_array+0xc>
- 800187e:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
- 8001882:	4798      	blx	r3
- 8001884:	3501      	adds	r5, #1
- 8001886:	e7f2      	b.n	800186e <__libc_init_array+0x1e>
- 8001888:	080018d4 	.word	0x080018d4
- 800188c:	080018d4 	.word	0x080018d4
- 8001890:	080018d4 	.word	0x080018d4
- 8001894:	080018d8 	.word	0x080018d8
+0800186c <__libc_init_array>:
+ 800186c:	b570      	push	{r4, r5, r6, lr}
+ 800186e:	2500      	movs	r5, #0
+ 8001870:	4e0c      	ldr	r6, [pc, #48]	; (80018a4 <__libc_init_array+0x38>)
+ 8001872:	4c0d      	ldr	r4, [pc, #52]	; (80018a8 <__libc_init_array+0x3c>)
+ 8001874:	1ba4      	subs	r4, r4, r6
+ 8001876:	10a4      	asrs	r4, r4, #2
+ 8001878:	42a5      	cmp	r5, r4
+ 800187a:	d109      	bne.n	8001890 <__libc_init_array+0x24>
+ 800187c:	f000 f81a 	bl	80018b4 <_init>
+ 8001880:	2500      	movs	r5, #0
+ 8001882:	4e0a      	ldr	r6, [pc, #40]	; (80018ac <__libc_init_array+0x40>)
+ 8001884:	4c0a      	ldr	r4, [pc, #40]	; (80018b0 <__libc_init_array+0x44>)
+ 8001886:	1ba4      	subs	r4, r4, r6
+ 8001888:	10a4      	asrs	r4, r4, #2
+ 800188a:	42a5      	cmp	r5, r4
+ 800188c:	d105      	bne.n	800189a <__libc_init_array+0x2e>
+ 800188e:	bd70      	pop	{r4, r5, r6, pc}
+ 8001890:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 8001894:	4798      	blx	r3
+ 8001896:	3501      	adds	r5, #1
+ 8001898:	e7ee      	b.n	8001878 <__libc_init_array+0xc>
+ 800189a:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 800189e:	4798      	blx	r3
+ 80018a0:	3501      	adds	r5, #1
+ 80018a2:	e7f2      	b.n	800188a <__libc_init_array+0x1e>
+ 80018a4:	080018f0 	.word	0x080018f0
+ 80018a8:	080018f0 	.word	0x080018f0
+ 80018ac:	080018f0 	.word	0x080018f0
+ 80018b0:	080018f4 	.word	0x080018f4
 
-08001898 <_init>:
- 8001898:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 800189a:	bf00      	nop
- 800189c:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 800189e:	bc08      	pop	{r3}
- 80018a0:	469e      	mov	lr, r3
- 80018a2:	4770      	bx	lr
+080018b4 <_init>:
+ 80018b4:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 80018b6:	bf00      	nop
+ 80018b8:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 80018ba:	bc08      	pop	{r3}
+ 80018bc:	469e      	mov	lr, r3
+ 80018be:	4770      	bx	lr
 
-080018a4 <_fini>:
- 80018a4:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 80018a6:	bf00      	nop
- 80018a8:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 80018aa:	bc08      	pop	{r3}
- 80018ac:	469e      	mov	lr, r3
- 80018ae:	4770      	bx	lr
+080018c0 <_fini>:
+ 80018c0:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 80018c2:	bf00      	nop
+ 80018c4:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 80018c6:	bc08      	pop	{r3}
+ 80018c8:	469e      	mov	lr, r3
+ 80018ca:	4770      	bx	lr
