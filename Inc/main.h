@@ -58,6 +58,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define Board_Led_Pin GPIO_PIN_13
+#define Board_Led_GPIO_Port GPIOC
 #define TLC5947_BLANK4_Pin GPIO_PIN_0
 #define TLC5947_BLANK4_GPIO_Port GPIOB
 #define TLC5947_BLANK3_Pin GPIO_PIN_1

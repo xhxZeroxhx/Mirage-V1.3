@@ -117,6 +117,8 @@ int main(void)
   HAL_GPIO_WritePin(TLC5947_BLANK3_GPIO_Port, TLC5947_BLANK3_Pin, GPIO_PIN_SET);//Turn off leds
   HAL_GPIO_WritePin(TLC5947_BLANK4_GPIO_Port, TLC5947_BLANK4_Pin, GPIO_PIN_SET);//Turn off leds
 
+//  HAL_GPIO_WritePin(Board_Led_GPIO_Port,Board_Led_Pin,GPIO_PIN_RESET);//Turn off led
+
 
   /* USER CODE END 2 */
 
@@ -239,7 +241,7 @@ static void MX_TIM4_Init(void)
 
   /* USER CODE END TIM4_Init 1 */
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 35999;
+  htim4.Init.Prescaler = 35;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.Period = 1999;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -281,18 +283,18 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(Board_Led_GPIO_Port, Board_Led_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, TLC5947_BLANK4_Pin|TLC5947_BLANK3_Pin|TLC5947_BLANK2_Pin|TLC5947_BLANK1_Pin 
                           |TLC5947_XLAT_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : PC13 */
-  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  /*Configure GPIO pin : Board_Led_Pin */
+  GPIO_InitStruct.Pin = Board_Led_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  HAL_GPIO_Init(Board_Led_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : TLC5947_BLANK4_Pin TLC5947_BLANK3_Pin TLC5947_BLANK2_Pin TLC5947_BLANK1_Pin 
                            TLC5947_XLAT_Pin */
@@ -346,13 +348,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //	}
 
 	if(htim->Instance== TIM4){
-//		if(g_MotorSync == TRUE)//uncomment when the board is connected to the motor
-//		{
+		if(g_MotorSync == TRUE)//uncomment when the board is connected to the motor
+		{
 			g_TLCFlag = 1;//enable TLC Update
-			g_degreeCount+=10;
-			if (g_degreeCount>=110)//reset val
-				g_degreeCount = 0;
-//		}
+			g_degreeCount++;
+
+//			if (g_degreeCount>=110)//reset val, used only for testing
+//				g_degreeCount = 0;
+		}
 	}
 
 }
@@ -366,6 +369,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   g_prevTime = g_curTime;
   if(GPIO_Pin == Hall_sensor_Pin) // hall sensor's pin
   {
+	  HAL_GPIO_TogglePin(Board_Led_GPIO_Port, Board_Led_Pin);//Switch on/off board pin
 	  if(g_MotorSync == FALSE)//until the motor is working properly loops are just counted
 		  LoopCounter++;
 
@@ -385,8 +389,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	   */
 	  //for this to work i have to change the prescaler of timer 4 so that tim4 interrupts every 1ms
 	  g_degreeCount = 0;//indicates that a full spin has been made and thus degree count is reset to 0°
-	  __HAL_TIM_SET_PRESCALER(&htim4,35);//ERASE THIS ONCE TIM4 IS CONFIGURED FROM .ioc FILE
 
+//	  __HAL_TIM_SET_PRESCALER(&htim4,35);//ERASE THIS ONCE TIM4 IS CONFIGURED FROM .ioc FILE
+//
 	  __HAL_TIM_SET_AUTORELOAD(&htim4,__HAL_TIM_GET_AUTORELOAD(&htim4)*180*(360/g_tDelay));//1"*180°*time1°
 
 
