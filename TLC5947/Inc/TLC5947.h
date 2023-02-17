@@ -39,6 +39,7 @@
 #define FABITEST 0
 #define LINE 1
 #define LETTERo 2
+#define LETTERS 3
 
 /* USER CODE END Includes */
 

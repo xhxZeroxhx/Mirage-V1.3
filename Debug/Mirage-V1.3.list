@@ -5,47 +5,47 @@ Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
   0 .isr_vector   0000010c  08000000  08000000  00010000  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  1 .text         000017d0  0800010c  0800010c  0001010c  2**2
+  1 .text         00001840  0800010c  0800010c  0001010c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       00000024  080018dc  080018dc  000118dc  2**2
+  2 .rodata       00000024  0800194c  0800194c  0001194c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  08001900  08001900  000200cc  2**0
+  3 .ARM.extab    00000000  08001970  08001970  0002024c  2**0
                   CONTENTS
-  4 .ARM          00000000  08001900  08001900  000200cc  2**0
+  4 .ARM          00000000  08001970  08001970  0002024c  2**0
                   CONTENTS
-  5 .preinit_array 00000000  08001900  08001900  000200cc  2**0
+  5 .preinit_array 00000000  08001970  08001970  0002024c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  08001900  08001900  00011900  2**2
+  6 .init_array   00000004  08001970  08001970  00011970  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .fini_array   00000004  08001904  08001904  00011904  2**2
+  7 .fini_array   00000004  08001974  08001974  00011974  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .data         000000cc  20000000  08001908  00020000  2**2
+  8 .data         0000024c  20000000  08001978  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          000001c4  200000cc  080019d4  000200cc  2**2
+  9 .bss          000001c4  2000024c  08001bc4  0002024c  2**2
                   ALLOC
- 10 ._user_heap_stack 00000600  20000290  080019d4  00020290  2**0
+ 10 ._user_heap_stack 00000600  20000410  08001bc4  00020410  2**0
                   ALLOC
- 11 .ARM.attributes 00000029  00000000  00000000  000200cc  2**0
+ 11 .ARM.attributes 00000029  00000000  00000000  0002024c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00011f02  00000000  00000000  000200f5  2**0
+ 12 .debug_info   00011f51  00000000  00000000  00020275  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_abbrev 00002141  00000000  00000000  00031ff7  2**0
+ 13 .debug_abbrev 00002141  00000000  00000000  000321c6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_loc    000073be  00000000  00000000  00034138  2**0
+ 14 .debug_loc    00007415  00000000  00000000  00034307  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_aranges 00000a60  00000000  00000000  0003b4f8  2**3
+ 15 .debug_aranges 00000a60  00000000  00000000  0003b720  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_ranges 00000a20  00000000  00000000  0003bf58  2**3
+ 16 .debug_ranges 00000a20  00000000  00000000  0003c180  2**3
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_macro  0001588a  00000000  00000000  0003c978  2**0
+ 17 .debug_macro  00015896  00000000  00000000  0003cba0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_line   0000a333  00000000  00000000  00052202  2**0
+ 18 .debug_line   0000a35f  00000000  00000000  00052436  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .debug_str    0007151a  00000000  00000000  0005c535  2**0
+ 19 .debug_str    0007153d  00000000  00000000  0005c795  2**0
                   CONTENTS, READONLY, DEBUGGING
- 20 .comment      0000007b  00000000  00000000  000cda4f  2**0
+ 20 .comment      0000007b  00000000  00000000  000cdcd2  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  00001b20  00000000  00000000  000cdacc  2**2
+ 21 .debug_frame  00001b20  00000000  00000000  000cdd50  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -62,9 +62,9 @@ Disassembly of section .text:
  800011e:	2301      	movs	r3, #1
  8000120:	7023      	strb	r3, [r4, #0]
  8000122:	bd10      	pop	{r4, pc}
- 8000124:	200000cc 	.word	0x200000cc
+ 8000124:	2000024c 	.word	0x2000024c
  8000128:	00000000 	.word	0x00000000
- 800012c:	080018c4 	.word	0x080018c4
+ 800012c:	08001934 	.word	0x08001934
 
 08000130 <frame_dummy>:
  8000130:	b508      	push	{r3, lr}
@@ -75,8 +75,8 @@ Disassembly of section .text:
  800013a:	f3af 8000 	nop.w
  800013e:	bd08      	pop	{r3, pc}
  8000140:	00000000 	.word	0x00000000
- 8000144:	200000d0 	.word	0x200000d0
- 8000148:	080018c4 	.word	0x080018c4
+ 8000144:	20000250 	.word	0x20000250
+ 8000148:	08001934 	.word	0x08001934
 
 0800014c <HAL_InitTick>:
   *       implementation  in user file.
@@ -174,7 +174,7 @@ __weak void HAL_IncTick(void)
 }
  80001c8:	4770      	bx	lr
  80001ca:	bf00      	nop
- 80001cc:	200001ec 	.word	0x200001ec
+ 80001cc:	2000036c 	.word	0x2000036c
  80001d0:	20000000 	.word	0x20000000
 
 080001d4 <HAL_GetTick>:
@@ -189,7 +189,7 @@ __weak uint32_t HAL_GetTick(void)
 }
  80001d8:	4770      	bx	lr
  80001da:	bf00      	nop
- 80001dc:	200001ec 	.word	0x200001ec
+ 80001dc:	2000036c 	.word	0x2000036c
 
 080001e0 <HAL_NVIC_SetPriorityGrouping>:
 __STATIC_INLINE void NVIC_SetPriorityGrouping(uint32_t PriorityGroup)
@@ -1327,7 +1327,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __NOP(void)
   return sysclockfreq;
  8000918:	e7ed      	b.n	80008f6 <HAL_RCC_GetSysClockFreq+0x3a>
  800091a:	bf00      	nop
- 800091c:	080018dc 	.word	0x080018dc
+ 800091c:	0800194c 	.word	0x0800194c
  8000920:	40021000 	.word	0x40021000
  8000924:	003d0900 	.word	0x003d0900
  8000928:	007a1200 	.word	0x007a1200
@@ -1543,7 +1543,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __NOP(void)
  8000ab6:	bf00      	nop
  8000ab8:	40022000 	.word	0x40022000
  8000abc:	40021000 	.word	0x40021000
- 8000ac0:	080018f0 	.word	0x080018f0
+ 8000ac0:	08001960 	.word	0x08001960
  8000ac4:	20000008 	.word	0x20000008
 
 08000ac8 <SPI_WaitFlagStateUntilTimeout>:
@@ -2923,7 +2923,7 @@ static void MX_GPIO_Init(void)
 }
  80012cc:	bd08      	pop	{r3, pc}
  80012ce:	bf00      	nop
- 80012d0:	20000234 	.word	0x20000234
+ 80012d0:	200003b4 	.word	0x200003b4
  80012d4:	40013000 	.word	0x40013000
 
 080012d8 <MX_TIM4_Init>:
@@ -2943,42 +2943,41 @@ static void MX_GPIO_Init(void)
  80012ea:	4d0f      	ldr	r5, [pc, #60]	; (8001328 <MX_TIM4_Init+0x50>)
  80012ec:	4b0f      	ldr	r3, [pc, #60]	; (800132c <MX_TIM4_Init+0x54>)
  80012ee:	602b      	str	r3, [r5, #0]
-  htim4.Init.Prescaler = 35;
- 80012f0:	2323      	movs	r3, #35	; 0x23
- 80012f2:	606b      	str	r3, [r5, #4]
+  htim4.Init.Prescaler = 35999;
+ 80012f0:	f648 439f 	movw	r3, #35999	; 0x8c9f
+ 80012f4:	606b      	str	r3, [r5, #4]
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
- 80012f4:	60ac      	str	r4, [r5, #8]
+ 80012f6:	60ac      	str	r4, [r5, #8]
   htim4.Init.Period = 1999;
- 80012f6:	f240 73cf 	movw	r3, #1999	; 0x7cf
- 80012fa:	60eb      	str	r3, [r5, #12]
+ 80012f8:	f240 73cf 	movw	r3, #1999	; 0x7cf
+ 80012fc:	60eb      	str	r3, [r5, #12]
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
- 80012fc:	612c      	str	r4, [r5, #16]
+ 80012fe:	612c      	str	r4, [r5, #16]
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
- 80012fe:	2380      	movs	r3, #128	; 0x80
- 8001300:	61ab      	str	r3, [r5, #24]
+ 8001300:	2380      	movs	r3, #128	; 0x80
+ 8001302:	61ab      	str	r3, [r5, #24]
   if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
- 8001302:	4628      	mov	r0, r5
- 8001304:	f7ff ff16 	bl	8001134 <HAL_TIM_Base_Init>
+ 8001304:	4628      	mov	r0, r5
+ 8001306:	f7ff ff15 	bl	8001134 <HAL_TIM_Base_Init>
   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
- 8001308:	f44f 5380 	mov.w	r3, #4096	; 0x1000
- 800130c:	9302      	str	r3, [sp, #8]
+ 800130a:	f44f 5380 	mov.w	r3, #4096	; 0x1000
+ 800130e:	9302      	str	r3, [sp, #8]
   if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
- 800130e:	a902      	add	r1, sp, #8
- 8001310:	4628      	mov	r0, r5
- 8001312:	f7ff fd90 	bl	8000e36 <HAL_TIM_ConfigClockSource>
+ 8001310:	a902      	add	r1, sp, #8
+ 8001312:	4628      	mov	r0, r5
+ 8001314:	f7ff fd8f 	bl	8000e36 <HAL_TIM_ConfigClockSource>
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
- 8001316:	9400      	str	r4, [sp, #0]
+ 8001318:	9400      	str	r4, [sp, #0]
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
- 8001318:	9401      	str	r4, [sp, #4]
+ 800131a:	9401      	str	r4, [sp, #4]
   if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
- 800131a:	4669      	mov	r1, sp
- 800131c:	4628      	mov	r0, r5
- 800131e:	f7ff ff22 	bl	8001166 <HAL_TIMEx_MasterConfigSynchronization>
+ 800131c:	4669      	mov	r1, sp
+ 800131e:	4628      	mov	r0, r5
+ 8001320:	f7ff ff21 	bl	8001166 <HAL_TIMEx_MasterConfigSynchronization>
 }
- 8001322:	b007      	add	sp, #28
- 8001324:	bd30      	pop	{r4, r5, pc}
- 8001326:	bf00      	nop
- 8001328:	200001f4 	.word	0x200001f4
+ 8001324:	b007      	add	sp, #28
+ 8001326:	bd30      	pop	{r4, r5, pc}
+ 8001328:	20000374 	.word	0x20000374
  800132c:	40000800 	.word	0x40000800
 
 08001330 <SystemClock_Config>:
@@ -3080,8 +3079,8 @@ static void MX_GPIO_Init(void)
  80013ce:	7813      	ldrb	r3, [r2, #0]
  80013d0:	3301      	adds	r3, #1
  80013d2:	7013      	strb	r3, [r2, #0]
-		  FillArray(BLUE,LETTERo);
- 80013d4:	2102      	movs	r1, #2
+	  FillArray(BLUE,LETTERS);
+ 80013d4:	2103      	movs	r1, #3
  80013d6:	2000      	movs	r0, #0
  80013d8:	f000 f9d8 	bl	800178c <FillArray>
 		  g_TLCFlag = 0;//disable TLC Update
@@ -3106,10 +3105,10 @@ static void MX_GPIO_Init(void)
  80013fa:	701a      	strb	r2, [r3, #0]
  80013fc:	e7e6      	b.n	80013cc <main+0x48>
  80013fe:	bf00      	nop
- 8001400:	200001f4 	.word	0x200001f4
+ 8001400:	20000374 	.word	0x20000374
  8001404:	40010c00 	.word	0x40010c00
- 8001408:	200000f0 	.word	0x200000f0
- 800140c:	200000eb 	.word	0x200000eb
+ 8001408:	20000270 	.word	0x20000270
+ 800140c:	2000026b 	.word	0x2000026b
 
 08001410 <HAL_TIM_PeriodElapsedCallback>:
 //			__HAL_TIM_SET_AUTORELOAD(&htim2,1999);//p.1040
@@ -3119,37 +3118,39 @@ static void MX_GPIO_Init(void)
 
 	if(htim->Instance== TIM4){
  8001410:	6802      	ldr	r2, [r0, #0]
- 8001412:	4b08      	ldr	r3, [pc, #32]	; (8001434 <HAL_TIM_PeriodElapsedCallback+0x24>)
+ 8001412:	4b09      	ldr	r3, [pc, #36]	; (8001438 <HAL_TIM_PeriodElapsedCallback+0x28>)
  8001414:	429a      	cmp	r2, r3
  8001416:	d000      	beq.n	800141a <HAL_TIM_PeriodElapsedCallback+0xa>
-//			if (g_degreeCount>=110)//reset val, used only for testing
-//				g_degreeCount = 0;
-		}
+			if (g_degreeCount>=20)//reset val, used only for testing
+				g_degreeCount = 0;
+//		}
 	}
 
 }
  8001418:	4770      	bx	lr
-		if(g_MotorSync == TRUE)//uncomment when the board is connected to the motor
- 800141a:	4b07      	ldr	r3, [pc, #28]	; (8001438 <HAL_TIM_PeriodElapsedCallback+0x28>)
- 800141c:	781b      	ldrb	r3, [r3, #0]
- 800141e:	2b01      	cmp	r3, #1
- 8001420:	d1fa      	bne.n	8001418 <HAL_TIM_PeriodElapsedCallback+0x8>
 			g_TLCFlag = 1;//enable TLC Update
- 8001422:	4b06      	ldr	r3, [pc, #24]	; (800143c <HAL_TIM_PeriodElapsedCallback+0x2c>)
- 8001424:	2201      	movs	r2, #1
- 8001426:	701a      	strb	r2, [r3, #0]
+ 800141a:	4b08      	ldr	r3, [pc, #32]	; (800143c <HAL_TIM_PeriodElapsedCallback+0x2c>)
+ 800141c:	2201      	movs	r2, #1
+ 800141e:	701a      	strb	r2, [r3, #0]
 			g_degreeCount++;
- 8001428:	4a05      	ldr	r2, [pc, #20]	; (8001440 <HAL_TIM_PeriodElapsedCallback+0x30>)
- 800142a:	8813      	ldrh	r3, [r2, #0]
- 800142c:	3301      	adds	r3, #1
- 800142e:	8013      	strh	r3, [r2, #0]
+ 8001420:	4a07      	ldr	r2, [pc, #28]	; (8001440 <HAL_TIM_PeriodElapsedCallback+0x30>)
+ 8001422:	8813      	ldrh	r3, [r2, #0]
+ 8001424:	3301      	adds	r3, #1
+ 8001426:	b29b      	uxth	r3, r3
+ 8001428:	8013      	strh	r3, [r2, #0]
+			if (g_degreeCount>=20)//reset val, used only for testing
+ 800142a:	2b13      	cmp	r3, #19
+ 800142c:	d9f4      	bls.n	8001418 <HAL_TIM_PeriodElapsedCallback+0x8>
+				g_degreeCount = 0;
+ 800142e:	4613      	mov	r3, r2
+ 8001430:	2200      	movs	r2, #0
+ 8001432:	801a      	strh	r2, [r3, #0]
 }
- 8001430:	e7f2      	b.n	8001418 <HAL_TIM_PeriodElapsedCallback+0x8>
- 8001432:	bf00      	nop
- 8001434:	40000800 	.word	0x40000800
- 8001438:	200000ea 	.word	0x200000ea
- 800143c:	200000eb 	.word	0x200000eb
- 8001440:	200000ee 	.word	0x200000ee
+ 8001434:	e7f0      	b.n	8001418 <HAL_TIM_PeriodElapsedCallback+0x8>
+ 8001436:	bf00      	nop
+ 8001438:	40000800 	.word	0x40000800
+ 800143c:	2000026b 	.word	0x2000026b
+ 8001440:	2000026e 	.word	0x2000026e
 
 08001444 <HAL_GPIO_EXTI_Callback>:
 {
@@ -3241,12 +3242,12 @@ static void MX_GPIO_Init(void)
  80014be:	2201      	movs	r2, #1
  80014c0:	701a      	strb	r2, [r3, #0]
  80014c2:	e7db      	b.n	800147c <HAL_GPIO_EXTI_Callback+0x38>
- 80014c4:	200000ec 	.word	0x200000ec
- 80014c8:	200000f2 	.word	0x200000f2
- 80014cc:	200000ea 	.word	0x200000ea
- 80014d0:	200000e8 	.word	0x200000e8
- 80014d4:	200000ee 	.word	0x200000ee
- 80014d8:	200001f4 	.word	0x200001f4
+ 80014c4:	2000026c 	.word	0x2000026c
+ 80014c8:	20000272 	.word	0x20000272
+ 80014cc:	2000026a 	.word	0x2000026a
+ 80014d0:	20000268 	.word	0x20000268
+ 80014d4:	2000026e 	.word	0x2000026e
+ 80014d8:	20000374 	.word	0x20000374
 
 080014dc <TLC_Write>:
 
@@ -3264,7 +3265,7 @@ void TLC_Write(uint8_t data[])
 }
  80014ec:	bd08      	pop	{r3, pc}
  80014ee:	bf00      	nop
- 80014f0:	20000234 	.word	0x20000234
+ 80014f0:	200003b4 	.word	0x200003b4
 
 080014f4 <HAL_MspInit>:
 /* USER CODE END 0 */
@@ -3541,7 +3542,7 @@ void TIM4_IRQHandler(void)
 }
  80015fc:	bd08      	pop	{r3, pc}
  80015fe:	bf00      	nop
- 8001600:	200001f4 	.word	0x200001f4
+ 8001600:	20000374 	.word	0x20000374
 
 08001604 <EXTI15_10_IRQHandler>:
 
@@ -3693,22 +3694,22 @@ LoopFillZerobss:
  8001682:	f7ff ffc5 	bl	8001610 <SystemInit>
 /* Call static constructors */
     bl __libc_init_array
- 8001686:	f000 f8f9 	bl	800187c <__libc_init_array>
+ 8001686:	f000 f931 	bl	80018ec <__libc_init_array>
 /* Call the application's entry point.*/
   bl main
  800168a:	f7ff fe7b 	bl	8001384 <main>
   bx lr
  800168e:	4770      	bx	lr
   ldr r3, =_sidata
- 8001690:	08001908 	.word	0x08001908
+ 8001690:	08001978 	.word	0x08001978
   ldr r0, =_sdata
  8001694:	20000000 	.word	0x20000000
   ldr r3, =_edata
- 8001698:	200000cc 	.word	0x200000cc
+ 8001698:	2000024c 	.word	0x2000024c
   ldr r2, =_sbss
- 800169c:	200000cc 	.word	0x200000cc
+ 800169c:	2000024c 	.word	0x2000024c
   ldr r3, = _ebss
- 80016a0:	20000290 	.word	0x20000290
+ 80016a0:	20000410 	.word	0x20000410
 
 080016a4 <ADC1_2_IRQHandler>:
  * @retval : None
@@ -3721,8 +3722,8 @@ Infinite_Loop:
 	...
 
 080016a8 <TLC_Update>:
-		0,0,0,0,0,0
-
+0,0,0,0,0,0,
+0,0,0,0,0,0
 };
 
 void TLC_Update(void)
@@ -3877,221 +3878,278 @@ void TLC_Update(void)
 }
  800177a:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
  800177c:	40010c00 	.word	0x40010c00
- 8001780:	200000f8 	.word	0x200000f8
- 8001784:	20000158 	.word	0x20000158
+ 8001780:	20000278 	.word	0x20000278
+ 8001784:	200002d8 	.word	0x200002d8
  8001788:	38e38e39 	.word	0x38e38e39
 
 0800178c <FillArray>:
+ * por algún motivo al poner valores en dudo aparecian valores espúreos
+ * en las últimas posiciones de 65535
+ *
+ */
 void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 {
-	static uint8_t increment = 3,array_index = 0,letCol = 0;
+ 800178c:	b470      	push	{r4, r5, r6}
+	static uint8_t increment = 3,array_index = 0,letCol = 0,letIndex=0;;
 	uint8_t letRow = 0;
 
 	switch(ledControl){
- 800178c:	2901      	cmp	r1, #1
- 800178e:	d01f      	beq.n	80017d0 <FillArray+0x44>
- 8001790:	b111      	cbz	r1, 8001798 <FillArray+0xc>
- 8001792:	2902      	cmp	r1, #2
- 8001794:	d05e      	beq.n	8001854 <FillArray+0xc8>
- 8001796:	4770      	bx	lr
+ 800178e:	2903      	cmp	r1, #3
+ 8001790:	d81e      	bhi.n	80017d0 <FillArray+0x44>
+ 8001792:	e8df f001 	tbb	[pc, r1]
+ 8001796:	1f02      	.short	0x1f02
+ 8001798:	6236      	.short	0x6236
 
 	case 0:
 		//FABITEST
 		for (array_index = 0; array_index<TOTAL_CHANNELS;array_index++)
- 8001798:	4b33      	ldr	r3, [pc, #204]	; (8001868 <FillArray+0xdc>)
- 800179a:	2200      	movs	r2, #0
- 800179c:	701a      	strb	r2, [r3, #0]
- 800179e:	e005      	b.n	80017ac <FillArray+0x20>
+ 800179a:	4b4d      	ldr	r3, [pc, #308]	; (80018d0 <FillArray+0x144>)
+ 800179c:	2200      	movs	r2, #0
+ 800179e:	701a      	strb	r2, [r3, #0]
+ 80017a0:	e005      	b.n	80017ae <FillArray+0x22>
 			g_LedsMatrix[0][array_index]=0;
- 80017a0:	4a32      	ldr	r2, [pc, #200]	; (800186c <FillArray+0xe0>)
- 80017a2:	2100      	movs	r1, #0
- 80017a4:	54d1      	strb	r1, [r2, r3]
+ 80017a2:	4a4c      	ldr	r2, [pc, #304]	; (80018d4 <FillArray+0x148>)
+ 80017a4:	2100      	movs	r1, #0
+ 80017a6:	54d1      	strb	r1, [r2, r3]
 		for (array_index = 0; array_index<TOTAL_CHANNELS;array_index++)
- 80017a6:	3301      	adds	r3, #1
- 80017a8:	4a2f      	ldr	r2, [pc, #188]	; (8001868 <FillArray+0xdc>)
- 80017aa:	7013      	strb	r3, [r2, #0]
- 80017ac:	4b2e      	ldr	r3, [pc, #184]	; (8001868 <FillArray+0xdc>)
- 80017ae:	781b      	ldrb	r3, [r3, #0]
- 80017b0:	2b5f      	cmp	r3, #95	; 0x5f
- 80017b2:	d9f5      	bls.n	80017a0 <FillArray+0x14>
+ 80017a8:	3301      	adds	r3, #1
+ 80017aa:	4a49      	ldr	r2, [pc, #292]	; (80018d0 <FillArray+0x144>)
+ 80017ac:	7013      	strb	r3, [r2, #0]
+ 80017ae:	4b48      	ldr	r3, [pc, #288]	; (80018d0 <FillArray+0x144>)
+ 80017b0:	781b      	ldrb	r3, [r3, #0]
+ 80017b2:	2b5f      	cmp	r3, #95	; 0x5f
+ 80017b4:	d9f5      	bls.n	80017a2 <FillArray+0x16>
 
 		for (array_index=colorIntensity; array_index<TOTAL_CHANNELS;array_index+=increment)
- 80017b4:	4b2c      	ldr	r3, [pc, #176]	; (8001868 <FillArray+0xdc>)
- 80017b6:	7018      	strb	r0, [r3, #0]
- 80017b8:	e005      	b.n	80017c6 <FillArray+0x3a>
+ 80017b6:	4b46      	ldr	r3, [pc, #280]	; (80018d0 <FillArray+0x144>)
+ 80017b8:	7018      	strb	r0, [r3, #0]
+ 80017ba:	e005      	b.n	80017c8 <FillArray+0x3c>
 			g_LedsMatrix[0][array_index]=255;
- 80017ba:	4a2c      	ldr	r2, [pc, #176]	; (800186c <FillArray+0xe0>)
- 80017bc:	21ff      	movs	r1, #255	; 0xff
- 80017be:	54d1      	strb	r1, [r2, r3]
+ 80017bc:	4a45      	ldr	r2, [pc, #276]	; (80018d4 <FillArray+0x148>)
+ 80017be:	21ff      	movs	r1, #255	; 0xff
+ 80017c0:	54d1      	strb	r1, [r2, r3]
 		for (array_index=colorIntensity; array_index<TOTAL_CHANNELS;array_index+=increment)
- 80017c0:	3303      	adds	r3, #3
- 80017c2:	4a29      	ldr	r2, [pc, #164]	; (8001868 <FillArray+0xdc>)
- 80017c4:	7013      	strb	r3, [r2, #0]
- 80017c6:	4b28      	ldr	r3, [pc, #160]	; (8001868 <FillArray+0xdc>)
- 80017c8:	781b      	ldrb	r3, [r3, #0]
- 80017ca:	2b5f      	cmp	r3, #95	; 0x5f
- 80017cc:	d9f5      	bls.n	80017ba <FillArray+0x2e>
- 80017ce:	4770      	bx	lr
-	break;
-
-	case 1:
-		//LINE
-		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
- 80017d0:	4b25      	ldr	r3, [pc, #148]	; (8001868 <FillArray+0xdc>)
- 80017d2:	7018      	strb	r0, [r3, #0]
- 80017d4:	e005      	b.n	80017e2 <FillArray+0x56>
-//			if(g_degreeCount == 200)//when the motor is plugged change this to 179
-			if(array_index == 0||array_index == 3||array_index == 90)
-				g_LedsMatrix[0][array_index]=255;
- 80017d6:	4a25      	ldr	r2, [pc, #148]	; (800186c <FillArray+0xe0>)
- 80017d8:	21ff      	movs	r1, #255	; 0xff
- 80017da:	54d1      	strb	r1, [r2, r3]
-		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
- 80017dc:	3303      	adds	r3, #3
- 80017de:	4a22      	ldr	r2, [pc, #136]	; (8001868 <FillArray+0xdc>)
- 80017e0:	7013      	strb	r3, [r2, #0]
- 80017e2:	4b21      	ldr	r3, [pc, #132]	; (8001868 <FillArray+0xdc>)
- 80017e4:	781b      	ldrb	r3, [r3, #0]
- 80017e6:	2b5f      	cmp	r3, #95	; 0x5f
- 80017e8:	d809      	bhi.n	80017fe <FillArray+0x72>
-			if(array_index == 0||array_index == 3||array_index == 90)
- 80017ea:	2b00      	cmp	r3, #0
- 80017ec:	d0f3      	beq.n	80017d6 <FillArray+0x4a>
- 80017ee:	2b03      	cmp	r3, #3
- 80017f0:	d0f1      	beq.n	80017d6 <FillArray+0x4a>
- 80017f2:	2b5a      	cmp	r3, #90	; 0x5a
- 80017f4:	d0ef      	beq.n	80017d6 <FillArray+0x4a>
-			else
-				 g_LedsMatrix[0][array_index]=0;
- 80017f6:	4a1d      	ldr	r2, [pc, #116]	; (800186c <FillArray+0xe0>)
- 80017f8:	2100      	movs	r1, #0
- 80017fa:	54d1      	strb	r1, [r2, r3]
- 80017fc:	e7ee      	b.n	80017dc <FillArray+0x50>
- 80017fe:	4770      	bx	lr
-					if(letCol>=6)
-						letCol =0;
-				}
-			}
-			else
-				 g_LedsMatrix[0][array_index]=0;
- 8001800:	4a1a      	ldr	r2, [pc, #104]	; (800186c <FillArray+0xe0>)
- 8001802:	2000      	movs	r0, #0
- 8001804:	54d0      	strb	r0, [r2, r3]
-		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
- 8001806:	3303      	adds	r3, #3
- 8001808:	4a17      	ldr	r2, [pc, #92]	; (8001868 <FillArray+0xdc>)
- 800180a:	7013      	strb	r3, [r2, #0]
- 800180c:	4b16      	ldr	r3, [pc, #88]	; (8001868 <FillArray+0xdc>)
- 800180e:	781b      	ldrb	r3, [r3, #0]
- 8001810:	2b5f      	cmp	r3, #95	; 0x5f
- 8001812:	d81d      	bhi.n	8001850 <FillArray+0xc4>
-			if(g_degreeCount >= 179 && g_degreeCount<= 184)
- 8001814:	4a16      	ldr	r2, [pc, #88]	; (8001870 <FillArray+0xe4>)
- 8001816:	8812      	ldrh	r2, [r2, #0]
- 8001818:	3ab3      	subs	r2, #179	; 0xb3
- 800181a:	b292      	uxth	r2, r2
- 800181c:	2a05      	cmp	r2, #5
- 800181e:	d8ef      	bhi.n	8001800 <FillArray+0x74>
-				g_LedsMatrix[0][array_index]=letterO[letRow][letCol];
- 8001820:	4a14      	ldr	r2, [pc, #80]	; (8001874 <FillArray+0xe8>)
- 8001822:	7812      	ldrb	r2, [r2, #0]
- 8001824:	eb01 0041 	add.w	r0, r1, r1, lsl #1
- 8001828:	0044      	lsls	r4, r0, #1
- 800182a:	4813      	ldr	r0, [pc, #76]	; (8001878 <FillArray+0xec>)
- 800182c:	4420      	add	r0, r4
- 800182e:	5c84      	ldrb	r4, [r0, r2]
- 8001830:	480e      	ldr	r0, [pc, #56]	; (800186c <FillArray+0xe0>)
- 8001832:	54c4      	strb	r4, [r0, r3]
-				letRow++;
- 8001834:	3101      	adds	r1, #1
- 8001836:	b2c9      	uxtb	r1, r1
-				if(letRow==31)
- 8001838:	291f      	cmp	r1, #31
- 800183a:	d1e4      	bne.n	8001806 <FillArray+0x7a>
-					letCol++;
- 800183c:	3201      	adds	r2, #1
- 800183e:	b2d2      	uxtb	r2, r2
- 8001840:	480c      	ldr	r0, [pc, #48]	; (8001874 <FillArray+0xe8>)
- 8001842:	7002      	strb	r2, [r0, #0]
-					if(letCol>=6)
- 8001844:	2a05      	cmp	r2, #5
- 8001846:	d9de      	bls.n	8001806 <FillArray+0x7a>
-						letCol =0;
- 8001848:	4602      	mov	r2, r0
- 800184a:	2000      	movs	r0, #0
- 800184c:	7010      	strb	r0, [r2, #0]
- 800184e:	e7da      	b.n	8001806 <FillArray+0x7a>
+ 80017c2:	3303      	adds	r3, #3
+ 80017c4:	4a42      	ldr	r2, [pc, #264]	; (80018d0 <FillArray+0x144>)
+ 80017c6:	7013      	strb	r3, [r2, #0]
+ 80017c8:	4b41      	ldr	r3, [pc, #260]	; (80018d0 <FillArray+0x144>)
+ 80017ca:	781b      	ldrb	r3, [r3, #0]
+ 80017cc:	2b5f      	cmp	r3, #95	; 0x5f
+ 80017ce:	d9f5      	bls.n	80017bc <FillArray+0x30>
 
 	break;
 
 	}
 
 }
- 8001850:	bc10      	pop	{r4}
- 8001852:	4770      	bx	lr
+ 80017d0:	bc70      	pop	{r4, r5, r6}
+ 80017d2:	4770      	bx	lr
 		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
- 8001854:	4b04      	ldr	r3, [pc, #16]	; (8001868 <FillArray+0xdc>)
- 8001856:	7018      	strb	r0, [r3, #0]
+ 80017d4:	4b3e      	ldr	r3, [pc, #248]	; (80018d0 <FillArray+0x144>)
+ 80017d6:	7018      	strb	r0, [r3, #0]
+ 80017d8:	e005      	b.n	80017e6 <FillArray+0x5a>
+				g_LedsMatrix[0][array_index]=255;
+ 80017da:	4a3e      	ldr	r2, [pc, #248]	; (80018d4 <FillArray+0x148>)
+ 80017dc:	21ff      	movs	r1, #255	; 0xff
+ 80017de:	54d1      	strb	r1, [r2, r3]
+		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
+ 80017e0:	3303      	adds	r3, #3
+ 80017e2:	4a3b      	ldr	r2, [pc, #236]	; (80018d0 <FillArray+0x144>)
+ 80017e4:	7013      	strb	r3, [r2, #0]
+ 80017e6:	4b3a      	ldr	r3, [pc, #232]	; (80018d0 <FillArray+0x144>)
+ 80017e8:	781b      	ldrb	r3, [r3, #0]
+ 80017ea:	2b5f      	cmp	r3, #95	; 0x5f
+ 80017ec:	d8f0      	bhi.n	80017d0 <FillArray+0x44>
+			if(array_index == 0||array_index == 3||array_index == 90)
+ 80017ee:	2b00      	cmp	r3, #0
+ 80017f0:	d0f3      	beq.n	80017da <FillArray+0x4e>
+ 80017f2:	2b03      	cmp	r3, #3
+ 80017f4:	d0f1      	beq.n	80017da <FillArray+0x4e>
+ 80017f6:	2b5a      	cmp	r3, #90	; 0x5a
+ 80017f8:	d0ef      	beq.n	80017da <FillArray+0x4e>
+				 g_LedsMatrix[0][array_index]=0;
+ 80017fa:	4a36      	ldr	r2, [pc, #216]	; (80018d4 <FillArray+0x148>)
+ 80017fc:	2100      	movs	r1, #0
+ 80017fe:	54d1      	strb	r1, [r2, r3]
+ 8001800:	e7ee      	b.n	80017e0 <FillArray+0x54>
+		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
+ 8001802:	4b33      	ldr	r3, [pc, #204]	; (80018d0 <FillArray+0x144>)
+ 8001804:	7018      	strb	r0, [r3, #0]
 	uint8_t letRow = 0;
- 8001858:	2100      	movs	r1, #0
+ 8001806:	2100      	movs	r1, #0
 		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
- 800185a:	4b03      	ldr	r3, [pc, #12]	; (8001868 <FillArray+0xdc>)
- 800185c:	781b      	ldrb	r3, [r3, #0]
- 800185e:	2b5f      	cmp	r3, #95	; 0x5f
- 8001860:	d801      	bhi.n	8001866 <FillArray+0xda>
-{
- 8001862:	b410      	push	{r4}
- 8001864:	e7d6      	b.n	8001814 <FillArray+0x88>
- 8001866:	4770      	bx	lr
- 8001868:	200000f4 	.word	0x200000f4
- 800186c:	200000f8 	.word	0x200000f8
- 8001870:	200000ee 	.word	0x200000ee
- 8001874:	200001e8 	.word	0x200001e8
- 8001878:	2000000c 	.word	0x2000000c
+ 8001808:	e005      	b.n	8001816 <FillArray+0x8a>
+				 g_LedsMatrix[0][array_index]=0;
+ 800180a:	4a32      	ldr	r2, [pc, #200]	; (80018d4 <FillArray+0x148>)
+ 800180c:	2000      	movs	r0, #0
+ 800180e:	54d0      	strb	r0, [r2, r3]
+		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
+ 8001810:	3303      	adds	r3, #3
+ 8001812:	4a2f      	ldr	r2, [pc, #188]	; (80018d0 <FillArray+0x144>)
+ 8001814:	7013      	strb	r3, [r2, #0]
+ 8001816:	4b2e      	ldr	r3, [pc, #184]	; (80018d0 <FillArray+0x144>)
+ 8001818:	781b      	ldrb	r3, [r3, #0]
+ 800181a:	2b5f      	cmp	r3, #95	; 0x5f
+ 800181c:	d8d8      	bhi.n	80017d0 <FillArray+0x44>
+			if(g_degreeCount >= 179 && g_degreeCount<= 184)
+ 800181e:	4a2e      	ldr	r2, [pc, #184]	; (80018d8 <FillArray+0x14c>)
+ 8001820:	8812      	ldrh	r2, [r2, #0]
+ 8001822:	3ab3      	subs	r2, #179	; 0xb3
+ 8001824:	b292      	uxth	r2, r2
+ 8001826:	2a05      	cmp	r2, #5
+ 8001828:	d8ef      	bhi.n	800180a <FillArray+0x7e>
+				g_LedsMatrix[0][array_index]=letterO[letRow][letCol];
+ 800182a:	4a2c      	ldr	r2, [pc, #176]	; (80018dc <FillArray+0x150>)
+ 800182c:	7812      	ldrb	r2, [r2, #0]
+ 800182e:	eb01 0041 	add.w	r0, r1, r1, lsl #1
+ 8001832:	0044      	lsls	r4, r0, #1
+ 8001834:	482a      	ldr	r0, [pc, #168]	; (80018e0 <FillArray+0x154>)
+ 8001836:	4420      	add	r0, r4
+ 8001838:	5c84      	ldrb	r4, [r0, r2]
+ 800183a:	4826      	ldr	r0, [pc, #152]	; (80018d4 <FillArray+0x148>)
+ 800183c:	54c4      	strb	r4, [r0, r3]
+				letRow++;
+ 800183e:	3101      	adds	r1, #1
+ 8001840:	b2c9      	uxtb	r1, r1
+				if(letRow==31)
+ 8001842:	291f      	cmp	r1, #31
+ 8001844:	d1e4      	bne.n	8001810 <FillArray+0x84>
+					letCol++;
+ 8001846:	3201      	adds	r2, #1
+ 8001848:	b2d2      	uxtb	r2, r2
+ 800184a:	4824      	ldr	r0, [pc, #144]	; (80018dc <FillArray+0x150>)
+ 800184c:	7002      	strb	r2, [r0, #0]
+					if(letCol>=6)
+ 800184e:	2a05      	cmp	r2, #5
+ 8001850:	d9de      	bls.n	8001810 <FillArray+0x84>
+						letCol =0;
+ 8001852:	4602      	mov	r2, r0
+ 8001854:	2000      	movs	r0, #0
+ 8001856:	7010      	strb	r0, [r2, #0]
+ 8001858:	e7da      	b.n	8001810 <FillArray+0x84>
+		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
+ 800185a:	4b1d      	ldr	r3, [pc, #116]	; (80018d0 <FillArray+0x144>)
+ 800185c:	7018      	strb	r0, [r3, #0]
+	uint8_t letRow = 0;
+ 800185e:	2100      	movs	r1, #0
+		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
+ 8001860:	e005      	b.n	800186e <FillArray+0xe2>
+				 g_LedsMatrix[0][array_index]=0;
+ 8001862:	4a1c      	ldr	r2, [pc, #112]	; (80018d4 <FillArray+0x148>)
+ 8001864:	2000      	movs	r0, #0
+ 8001866:	54d0      	strb	r0, [r2, r3]
+		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
+ 8001868:	3303      	adds	r3, #3
+ 800186a:	4a19      	ldr	r2, [pc, #100]	; (80018d0 <FillArray+0x144>)
+ 800186c:	7013      	strb	r3, [r2, #0]
+ 800186e:	4b18      	ldr	r3, [pc, #96]	; (80018d0 <FillArray+0x144>)
+ 8001870:	781b      	ldrb	r3, [r3, #0]
+ 8001872:	2b5f      	cmp	r3, #95	; 0x5f
+ 8001874:	d8ac      	bhi.n	80017d0 <FillArray+0x44>
+						if(g_degreeCount >= 5 && g_degreeCount<= 17)
+ 8001876:	4a18      	ldr	r2, [pc, #96]	; (80018d8 <FillArray+0x14c>)
+ 8001878:	8812      	ldrh	r2, [r2, #0]
+ 800187a:	3a05      	subs	r2, #5
+ 800187c:	b292      	uxth	r2, r2
+ 800187e:	2a0c      	cmp	r2, #12
+ 8001880:	d8ef      	bhi.n	8001862 <FillArray+0xd6>
+				g_LedsMatrix[0][array_index]=letters[letIndex][letRow][letCol];
+ 8001882:	4a18      	ldr	r2, [pc, #96]	; (80018e4 <FillArray+0x158>)
+ 8001884:	7815      	ldrb	r5, [r2, #0]
+ 8001886:	4a15      	ldr	r2, [pc, #84]	; (80018dc <FillArray+0x150>)
+ 8001888:	7810      	ldrb	r0, [r2, #0]
+ 800188a:	eb01 0441 	add.w	r4, r1, r1, lsl #1
+ 800188e:	0062      	lsls	r2, r4, #1
+ 8001890:	eb05 0645 	add.w	r6, r5, r5, lsl #1
+ 8001894:	01b4      	lsls	r4, r6, #6
+ 8001896:	4422      	add	r2, r4
+ 8001898:	4c13      	ldr	r4, [pc, #76]	; (80018e8 <FillArray+0x15c>)
+ 800189a:	4422      	add	r2, r4
+ 800189c:	5c14      	ldrb	r4, [r2, r0]
+ 800189e:	4a0d      	ldr	r2, [pc, #52]	; (80018d4 <FillArray+0x148>)
+ 80018a0:	54d4      	strb	r4, [r2, r3]
+				letRow++;
+ 80018a2:	3101      	adds	r1, #1
+ 80018a4:	b2c9      	uxtb	r1, r1
+				if(letRow==31)
+ 80018a6:	291f      	cmp	r1, #31
+ 80018a8:	d1de      	bne.n	8001868 <FillArray+0xdc>
+					letCol++;
+ 80018aa:	3001      	adds	r0, #1
+ 80018ac:	b2c0      	uxtb	r0, r0
+ 80018ae:	4a0b      	ldr	r2, [pc, #44]	; (80018dc <FillArray+0x150>)
+ 80018b0:	7010      	strb	r0, [r2, #0]
+					if(letCol>=6){
+ 80018b2:	2805      	cmp	r0, #5
+ 80018b4:	d9d8      	bls.n	8001868 <FillArray+0xdc>
+						letCol =0;
+ 80018b6:	2000      	movs	r0, #0
+ 80018b8:	7010      	strb	r0, [r2, #0]
+						letIndex++;
+ 80018ba:	1c6a      	adds	r2, r5, #1
+ 80018bc:	b2d2      	uxtb	r2, r2
+ 80018be:	4809      	ldr	r0, [pc, #36]	; (80018e4 <FillArray+0x158>)
+ 80018c0:	7002      	strb	r2, [r0, #0]
+						if(letIndex>=2)
+ 80018c2:	2a01      	cmp	r2, #1
+ 80018c4:	d9d0      	bls.n	8001868 <FillArray+0xdc>
+							letIndex = 0;
+ 80018c6:	4602      	mov	r2, r0
+ 80018c8:	2000      	movs	r0, #0
+ 80018ca:	7010      	strb	r0, [r2, #0]
+ 80018cc:	e7cc      	b.n	8001868 <FillArray+0xdc>
+ 80018ce:	bf00      	nop
+ 80018d0:	20000274 	.word	0x20000274
+ 80018d4:	20000278 	.word	0x20000278
+ 80018d8:	2000026e 	.word	0x2000026e
+ 80018dc:	20000368 	.word	0x20000368
+ 80018e0:	2000000c 	.word	0x2000000c
+ 80018e4:	20000369 	.word	0x20000369
+ 80018e8:	200000cc 	.word	0x200000cc
 
-0800187c <__libc_init_array>:
- 800187c:	b570      	push	{r4, r5, r6, lr}
- 800187e:	2500      	movs	r5, #0
- 8001880:	4e0c      	ldr	r6, [pc, #48]	; (80018b4 <__libc_init_array+0x38>)
- 8001882:	4c0d      	ldr	r4, [pc, #52]	; (80018b8 <__libc_init_array+0x3c>)
- 8001884:	1ba4      	subs	r4, r4, r6
- 8001886:	10a4      	asrs	r4, r4, #2
- 8001888:	42a5      	cmp	r5, r4
- 800188a:	d109      	bne.n	80018a0 <__libc_init_array+0x24>
- 800188c:	f000 f81a 	bl	80018c4 <_init>
- 8001890:	2500      	movs	r5, #0
- 8001892:	4e0a      	ldr	r6, [pc, #40]	; (80018bc <__libc_init_array+0x40>)
- 8001894:	4c0a      	ldr	r4, [pc, #40]	; (80018c0 <__libc_init_array+0x44>)
- 8001896:	1ba4      	subs	r4, r4, r6
- 8001898:	10a4      	asrs	r4, r4, #2
- 800189a:	42a5      	cmp	r5, r4
- 800189c:	d105      	bne.n	80018aa <__libc_init_array+0x2e>
- 800189e:	bd70      	pop	{r4, r5, r6, pc}
- 80018a0:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
- 80018a4:	4798      	blx	r3
- 80018a6:	3501      	adds	r5, #1
- 80018a8:	e7ee      	b.n	8001888 <__libc_init_array+0xc>
- 80018aa:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
- 80018ae:	4798      	blx	r3
- 80018b0:	3501      	adds	r5, #1
- 80018b2:	e7f2      	b.n	800189a <__libc_init_array+0x1e>
- 80018b4:	08001900 	.word	0x08001900
- 80018b8:	08001900 	.word	0x08001900
- 80018bc:	08001900 	.word	0x08001900
- 80018c0:	08001904 	.word	0x08001904
+080018ec <__libc_init_array>:
+ 80018ec:	b570      	push	{r4, r5, r6, lr}
+ 80018ee:	2500      	movs	r5, #0
+ 80018f0:	4e0c      	ldr	r6, [pc, #48]	; (8001924 <__libc_init_array+0x38>)
+ 80018f2:	4c0d      	ldr	r4, [pc, #52]	; (8001928 <__libc_init_array+0x3c>)
+ 80018f4:	1ba4      	subs	r4, r4, r6
+ 80018f6:	10a4      	asrs	r4, r4, #2
+ 80018f8:	42a5      	cmp	r5, r4
+ 80018fa:	d109      	bne.n	8001910 <__libc_init_array+0x24>
+ 80018fc:	f000 f81a 	bl	8001934 <_init>
+ 8001900:	2500      	movs	r5, #0
+ 8001902:	4e0a      	ldr	r6, [pc, #40]	; (800192c <__libc_init_array+0x40>)
+ 8001904:	4c0a      	ldr	r4, [pc, #40]	; (8001930 <__libc_init_array+0x44>)
+ 8001906:	1ba4      	subs	r4, r4, r6
+ 8001908:	10a4      	asrs	r4, r4, #2
+ 800190a:	42a5      	cmp	r5, r4
+ 800190c:	d105      	bne.n	800191a <__libc_init_array+0x2e>
+ 800190e:	bd70      	pop	{r4, r5, r6, pc}
+ 8001910:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 8001914:	4798      	blx	r3
+ 8001916:	3501      	adds	r5, #1
+ 8001918:	e7ee      	b.n	80018f8 <__libc_init_array+0xc>
+ 800191a:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 800191e:	4798      	blx	r3
+ 8001920:	3501      	adds	r5, #1
+ 8001922:	e7f2      	b.n	800190a <__libc_init_array+0x1e>
+ 8001924:	08001970 	.word	0x08001970
+ 8001928:	08001970 	.word	0x08001970
+ 800192c:	08001970 	.word	0x08001970
+ 8001930:	08001974 	.word	0x08001974
 
-080018c4 <_init>:
- 80018c4:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 80018c6:	bf00      	nop
- 80018c8:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 80018ca:	bc08      	pop	{r3}
- 80018cc:	469e      	mov	lr, r3
- 80018ce:	4770      	bx	lr
+08001934 <_init>:
+ 8001934:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8001936:	bf00      	nop
+ 8001938:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 800193a:	bc08      	pop	{r3}
+ 800193c:	469e      	mov	lr, r3
+ 800193e:	4770      	bx	lr
 
-080018d0 <_fini>:
- 80018d0:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 80018d2:	bf00      	nop
- 80018d4:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 80018d6:	bc08      	pop	{r3}
- 80018d8:	469e      	mov	lr, r3
- 80018da:	4770      	bx	lr
+08001940 <_fini>:
+ 8001940:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8001942:	bf00      	nop
+ 8001944:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8001946:	bc08      	pop	{r3}
+ 8001948:	469e      	mov	lr, r3
+ 800194a:	4770      	bx	lr

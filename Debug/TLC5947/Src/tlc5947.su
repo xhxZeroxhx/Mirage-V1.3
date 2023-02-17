@@ -1,2 +1,2 @@
-tlc5947.c:45:6:TLC_Update	24	static
-tlc5947.c:121:6:FillArray	4	static
+tlc5947.c:147:6:TLC_Update	24	static
+tlc5947.c:223:6:FillArray	12	static
