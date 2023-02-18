@@ -137,10 +137,11 @@ int main(void)
 
 	  g_imain ++;
 
-//	 FillArray(g_imain,FABITEST);
+	 FillArray(g_imain,FABITEST);
 //	  FillArray(BLUE,LINE);
 //		  FillArray(BLUE,LETTERo);
-	  FillArray(BLUE,LETTERS);
+//	  FillArray(BLUE,LETTERS);
+//	  FillArray(BLUE,MATITEST);
 		  g_TLCFlag = 0;//disable TLC Update
 	  }
 
@@ -244,7 +245,7 @@ static void MX_TIM4_Init(void)
   htim4.Instance = TIM4;
   htim4.Init.Prescaler = 35999;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 1999;
+  htim4.Init.Period = 999;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
@@ -348,14 +349,17 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //			__HAL_TIM_SET_AUTORELOAD(&htim2,(__HAL_TIM_GET_AUTORELOAD(&htim2)+2000));//p.1040 i add 1"
 //	}
 
-	if(htim->Instance== TIM4){
+	if(htim->Instance== TIM4)
+	{
+
 //		if(g_MotorSync == TRUE)//uncomment when the board is connected to the motor
 //		{
 			g_TLCFlag = 1;//enable TLC Update
-			g_degreeCount++;
-
-			if (g_degreeCount>=20)//reset val, used only for testing
-				g_degreeCount = 0;
+//			g_degreeCount++;
+//
+////			if (g_degreeCount>=20)//reset val, used only for testing
+//			if (g_degreeCount>=360)//reset val, used only for testing
+//				g_degreeCount = 0;
 //		}
 	}
 

@@ -222,7 +222,7 @@ void TLC_Update(void)
  */
 void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 {
-	static uint8_t increment = 3,array_index = 0,letCol = 0,letIndex=0;;
+	static uint8_t increment = 3,array_index = 0,letCol = 0,letIndex=0,matiTestIndex=0;
 	uint8_t letRow = 0;
 
 	switch(ledControl){
@@ -239,8 +239,8 @@ void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 	case 1:
 		//LINE
 		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
-//			if(g_degreeCount == 200)//when the motor is plugged change this to 179
-			if(array_index == 0||array_index == 3||array_index == 90)
+			if(g_degreeCount == 179)//when the motor is plugged change this to 179
+//			if(array_index == 0||array_index == 3||array_index == 90)
 				g_LedsMatrix[0][array_index]=255;
 			else
 				 g_LedsMatrix[0][array_index]=0;
@@ -276,7 +276,7 @@ void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 		//LETTERS
 
 		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
-			//			if(g_degreeCount >= 179 && g_degreeCount<= 184)
+//						if(g_degreeCount >= 179 && g_degreeCount<= 189)
 						if(g_degreeCount >= 5 && g_degreeCount<= 17)
 			{
 				g_LedsMatrix[0][array_index]=letters[letIndex][letRow][letCol];
@@ -304,6 +304,28 @@ void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 		}
 
 	break;
+
+	case 4:
+		//MATITEST
+		for (array_index = 0; array_index<TOTAL_CHANNELS;array_index++)
+			g_LedsMatrix[0][array_index]=0;
+
+
+			g_LedsMatrix[0][matiTestIndex]=255;
+			matiTestIndex+=increment;
+			switch(matiTestIndex)
+			{
+			case 96:
+				matiTestIndex = 1;
+				break;
+			case 97:
+				matiTestIndex = 2;
+				break;
+			case 98:
+				matiTestIndex = 0;
+				break;
+			}
+
 
 	}
 
