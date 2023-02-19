@@ -135,13 +135,14 @@ int main(void)
 	  if(g_imain > 2 ) //only enables RGB
 		  g_imain = 0;
 
-	  g_imain ++;
+//	  g_imain ++;
 
-	 FillArray(g_imain,FABITEST);
+//	 FillArray(g_imain,FABITEST);
 //	  FillArray(BLUE,LINE);
 //		  FillArray(BLUE,LETTERo);
 //	  FillArray(BLUE,LETTERS);
 //	  FillArray(BLUE,MATITEST);
+	  FillArray(BLUE,BMWLOGO);
 		  g_TLCFlag = 0;//disable TLC Update
 	  }
 
@@ -358,8 +359,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //			g_degreeCount++;
 //
 ////			if (g_degreeCount>=20)//reset val, used only for testing
-//			if (g_degreeCount>=360)//reset val, used only for testing
-//				g_degreeCount = 0;
+			if (g_degreeCount>=360)//reset val, used only for testing
+				g_degreeCount = 0;
 //		}
 	}
 
@@ -397,8 +398,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 //	  __HAL_TIM_SET_PRESCALER(&htim4,35);//ERASE THIS ONCE TIM4 IS CONFIGURED FROM .ioc FILE
 //
-	  __HAL_TIM_SET_AUTORELOAD(&htim4,__HAL_TIM_GET_AUTORELOAD(&htim4)*180*(360/g_tDelay));//1"*180°*time1°
+//	  __HAL_TIM_SET_AUTORELOAD(&htim4,__HAL_TIM_GET_AUTORELOAD(&htim4)*180*(360/g_tDelay));//1"*180°*time1°
 
+
+	  if(g_imain > 2 ) //only enables RGB
+		  g_imain = 0;
+
+	  g_imain ++;
 
   }
 

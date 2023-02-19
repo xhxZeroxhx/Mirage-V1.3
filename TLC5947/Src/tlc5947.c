@@ -326,6 +326,17 @@ void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 				break;
 			}
 
+		case 5:
+			//BMWLOGO
+			for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
+				if(g_degreeCount =<90||(g_degreeCount>=180 && g_degreeCount =<270))
+					g_LedsMatrix[0][array_index]=0;
+				else
+					 g_LedsMatrix[0][array_index]=255;
+			}
+
+		break;
+
 
 	}
 
