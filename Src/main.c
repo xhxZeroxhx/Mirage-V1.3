@@ -25,6 +25,7 @@
 /* USER CODE BEGIN Includes */
 #include "TLC5947.h"
 #include "hall_sensor.h"
+#include "stdlib.h" // for abs function
 
 //#include "spi1.h"
 
@@ -55,7 +56,7 @@ TIM_HandleTypeDef htim4;
 
 uint8_t g_uartByte, g_UARTVal,g_TLCFlag = 0;//val received, val stored, Timer flag
 uint8_t g_imain=0,g_MotorSync = FALSE;//g_MotorSync is used to indicate that the motor is working in nominal speed
-uint16_t g_TIMCounter = 0,g_degreeCount =0;
+uint16_t g_degreeCount =0,g_prevTime = 0 ,g_curTime = 0, g_tDelay = 0;
 
 
 
@@ -110,12 +111,15 @@ int main(void)
 //  HAL_UART_Receive_IT(&huart3, &g_uartByte, 1);//this triggers only once,uses interrupt and it has to be re-enabled
 //  FillArray(BLUE,FABITEST);//it will be red
   HAL_TIM_Base_Start_IT(&htim4);//Starts the TIM Base generation in interrupt mode. The oder mode just allows the count
-//  HAL_TIM_Base_Start_IT(&htim2);
+//  HAL_TIM_Base_Start(&htim2);//Start the TIM just as a counter with no interrupts
 
   HAL_GPIO_WritePin(TLC5947_BLANK1_GPIO_Port, TLC5947_BLANK1_Pin, GPIO_PIN_SET);//Turn off leds
   HAL_GPIO_WritePin(TLC5947_BLANK2_GPIO_Port, TLC5947_BLANK2_Pin, GPIO_PIN_SET);//Turn off leds
   HAL_GPIO_WritePin(TLC5947_BLANK3_GPIO_Port, TLC5947_BLANK3_Pin, GPIO_PIN_SET);//Turn off leds
   HAL_GPIO_WritePin(TLC5947_BLANK4_GPIO_Port, TLC5947_BLANK4_Pin, GPIO_PIN_SET);//Turn off leds
+
+  HAL_GPIO_WritePin(Board_Led_GPIO_Port, Board_Led_Pin, GPIO_PIN_RESET);//Turn off board led
+
 
 //  HAL_GPIO_WritePin(Board_Led_GPIO_Port,Board_Led_Pin,GPIO_PIN_RESET);//Turn off led
 
@@ -129,6 +133,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+
+
+
 	  if(g_TLCFlag){//enter when TIM4 interrupts
 		  TLC_Update();//renew PWM
 
@@ -137,12 +145,12 @@ int main(void)
 
 //	  g_imain ++;
 
-//	 FillArray(g_imain,FABITEST);
+	 FillArray(g_imain,FABITEST);
 //	  FillArray(BLUE,LINE);
 //		  FillArray(BLUE,LETTERo);
 //	  FillArray(BLUE,LETTERS);
 //	  FillArray(BLUE,MATITEST);
-	  FillArray(BLUE,BMWLOGO);
+//	  FillArray(BLUE,BMWLOGO);
 		  g_TLCFlag = 0;//disable TLC Update
 	  }
 
@@ -246,7 +254,7 @@ static void MX_TIM4_Init(void)
   htim4.Instance = TIM4;
   htim4.Init.Prescaler = 35999;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 999;
+  htim4.Init.Period = 1999;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
@@ -341,27 +349,18 @@ static void MX_GPIO_Init(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 
-//	if(htim->Instance==TIM2){
-//		HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);//Simple test with board's pin
-//
-//		if(__HAL_TIM_GET_AUTORELOAD(&htim2)>10000)
-//			__HAL_TIM_SET_AUTORELOAD(&htim2,1999);//p.1040
-//		else
-//			__HAL_TIM_SET_AUTORELOAD(&htim2,(__HAL_TIM_GET_AUTORELOAD(&htim2)+2000));//p.1040 i add 1"
-//	}
-
 	if(htim->Instance== TIM4)
 	{
-
-//		if(g_MotorSync == TRUE)//uncomment when the board is connected to the motor
-//		{
+		if(g_MotorSync<= 5 )//wait 5" before turning leds on
+			g_MotorSync++;
+		else
+		{
 			g_TLCFlag = 1;//enable TLC Update
-//			g_degreeCount++;
-//
-////			if (g_degreeCount>=20)//reset val, used only for testing
+			g_degreeCount++;
+
 			if (g_degreeCount>=360)//reset val, used only for testing
 				g_degreeCount = 0;
-//		}
+		}
 	}
 
 }
@@ -369,24 +368,19 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 
- static uint16_t g_prevTime = 0 ,g_curTime = 0, g_tDelay = 0,LoopCounter = 0; //stores timertick, LoopCounter is used to count 'x' amount of loops to allow the motor to stabilize
+ static uint16_t newPeriod = FALSE; //stores timertick, LoopCounter is used to count 'x' amount of loops to allow the motor to stabilize
 
 
-  g_prevTime = g_curTime;
   if(GPIO_Pin == Hall_sensor_Pin) // hall sensor's pin
   {
+	  g_prevTime = g_curTime;
 	  HAL_GPIO_TogglePin(Board_Led_GPIO_Port, Board_Led_Pin);//Switch on/off board pin
-	  if(g_MotorSync == FALSE)//until the motor is working properly loops are just counted
-		  LoopCounter++;
-
-	  if(LoopCounter == 10) //the optimal LoopCounter val will be found through trail and error
-		  g_MotorSync = TRUE;
 
 	  /*
 	   * 1 way of acquiring period of each turn
 	   */
 	  g_curTime = HAL_GetTick(); //Provides a tick value in millisecond
-	  g_tDelay = (g_curTime - g_prevTime);
+	  g_tDelay = abs(g_curTime - g_prevTime);//abs guarantees that there is no issues related to the sign
 
 	  /*
 	   * time it takes to do 1° = 360/g_tDelay;
@@ -396,10 +390,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	  //for this to work i have to change the prescaler of timer 4 so that tim4 interrupts every 1ms
 	  g_degreeCount = 0;//indicates that a full spin has been made and thus degree count is reset to 0°
 
-//	  __HAL_TIM_SET_PRESCALER(&htim4,35);//ERASE THIS ONCE TIM4 IS CONFIGURED FROM .ioc FILE
-//
-//	  __HAL_TIM_SET_AUTORELOAD(&htim4,__HAL_TIM_GET_AUTORELOAD(&htim4)*180*(360/g_tDelay));//1"*180°*time1°
 
+
+	  	  if(g_MotorSync >= 5 && newPeriod == FALSE) //this will update TIM4's period only once
+	  	  {
+	  		  __HAL_TIM_SET_AUTORELOAD(&htim4,__HAL_TIM_GET_AUTORELOAD(&htim4)*180*360/g_tDelay);//1"*180°*time1°. For the time being this will only be done once
+	  		newPeriod = TRUE;
+	  	  }
 
 	  if(g_imain > 2 ) //only enables RGB
 		  g_imain = 0;
@@ -414,7 +411,7 @@ void TLC_Write(uint8_t data[])
 //void TLC_Write(uint8_t *data)
 {
 	HAL_SPI_Transmit(&hspi1,data, SPI_BYTE_AMOUNT,1000); // envio via el sp1 de 1 todos los bytes que tenga que mandar
-//    while(HAL_SPI_GetState(&hspi1) != HAL_SPI_STATE_READY); // espero a que termine la transferen
+//    while(HAL_SPI_GetState(&hspi1) != HAL_SPI_STATE_READY); // espero a que termine la transferencia
 }
 /* USER CODE END 4 */
 
