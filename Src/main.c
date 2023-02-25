@@ -145,9 +145,9 @@ int main(void)
 
 //	  g_imain ++;
 
-	 FillArray(g_imain,FABITEST);
+//	 FillArray(g_imain,FABITEST);
 //	  FillArray(BLUE,LINE);
-//		  FillArray(BLUE,LETTERo);
+		  FillArray(BLUE,LETTERo);
 //	  FillArray(BLUE,LETTERS);
 //	  FillArray(BLUE,MATITEST);
 //	  FillArray(BLUE,BMWLOGO);
@@ -252,7 +252,7 @@ static void MX_TIM4_Init(void)
 
   /* USER CODE END TIM4_Init 1 */
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 35999;
+  htim4.Init.Prescaler = 35;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.Period = 1999;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -392,11 +392,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 
 
-	  	  if(g_MotorSync >= 5 && newPeriod == FALSE) //this will update TIM4's period only once
-	  	  {
-	  		  __HAL_TIM_SET_AUTORELOAD(&htim4,__HAL_TIM_GET_AUTORELOAD(&htim4)*180*360/g_tDelay);//1"*180°*time1°. For the time being this will only be done once
-	  		newPeriod = TRUE;
-	  	  }
+//	  	  if(g_MotorSync >= 5 && newPeriod == FALSE) //this will update TIM4's period only once
+//	  	  {
+//	  		  __HAL_TIM_SET_AUTORELOAD(&htim4,__HAL_TIM_GET_AUTORELOAD(&htim4)*180*360/g_tDelay);//1"*180°*time1°. For the time being this will only be done once
+	  		  __HAL_TIM_SET_AUTORELOAD(&htim4,g_tDelay*5714/1000);//1"*180°*time1°. For the time being this will only be done once
+
+//	  		  newPeriod = TRUE;
+//	  	  }
 
 	  if(g_imain > 2 ) //only enables RGB
 		  g_imain = 0;
