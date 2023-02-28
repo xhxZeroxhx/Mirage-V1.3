@@ -39,7 +39,41 @@ uint8_t letterO[TOTAL_LEDS][6]=
 0,0,0,0,0,0,
 0,0,0,0,0,0,
 0,0,0,0,0,0
-
+};
+uint8_t letterBigO[TOTAL_LEDS][12]=
+{
+		0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,255,255,0,0,0,0,0,
+		0,0,0,0,255,255,255,255,0,0,0,0,
+		0,0,0,255,255,255,255,255,255,0,0,0,
+		0,0,255,255,255,255,255,255,255,255,0,0,
+		0,255,255,255,255,255,255,255,255,255,255,0,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		255,255,0,0,0,0,0,0,0,0,255,255,
+		0,255,255,255,255,255,255,255,255,255,255,0,
+		0,0,255,255,255,255,255,255,255,255,0,0,
+		0,0,0,255,255,255,255,255,255,0,0,0,
+		0,0,0,0,255,255,255,255,0,0,0,0,
+		0,0,0,0,0,255,255,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,0,0
 };
 uint8_t letterH[TOTAL_LEDS][6]={
 0,0,0,0,0,0,
@@ -276,8 +310,8 @@ void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 		//LETTERS
 
 		for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
-//						if(g_degreeCount >= 179 && g_degreeCount<= 189)
-						if(g_degreeCount >= 5 && g_degreeCount<= 17)
+						if(g_degreeCount >= 179 && g_degreeCount<= 190)
+//						if(g_degreeCount >= 5 && g_degreeCount<= 17)
 			{
 				g_LedsMatrix[0][array_index]=letters[letIndex][letRow][letCol];
 				letRow++;
@@ -331,6 +365,44 @@ void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 			for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
 				if(g_degreeCount <=90||(g_degreeCount>=180 && g_degreeCount <=270))
 					g_LedsMatrix[0][array_index]=0;
+				else
+					 g_LedsMatrix[0][array_index]=255;
+			}
+
+		break;
+		case 6:
+			//LETTER BIG O
+
+			for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
+				if(g_degreeCount >= 179 && g_degreeCount<= 190)
+				{
+					g_LedsMatrix[0][array_index]=letterBigO[letRow][letCol];
+					letRow++;
+					if(letRow==31)
+					{
+						/*
+						 * This cycle allows to go through the letter vector as TIM4 updates g_degreeCount
+						 * the colum needs to change everytime the function is accessed, but the row must always start at 0
+						 */
+						letCol++;
+						if(letCol>=12)
+							letCol =0;
+
+					}
+				}
+				else
+					 g_LedsMatrix[0][array_index]=0;
+			}
+
+		break;
+		case 7:
+			//BMWLOGOALT
+			for (array_index = 0; array_index<TOTAL_CHANNELS;array_index++)
+				g_LedsMatrix[0][array_index]=0;
+
+			for (array_index = colorIntensity; array_index <TOTAL_CHANNELS;array_index+=increment){
+				if(g_degreeCount <=90||(g_degreeCount>=180 && g_degreeCount <=270))
+					g_LedsMatrix[0][array_index+1]=255;//turn on green leds
 				else
 					 g_LedsMatrix[0][array_index]=255;
 			}

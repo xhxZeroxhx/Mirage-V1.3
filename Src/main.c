@@ -138,20 +138,26 @@ int main(void)
 
 
 	  if(g_TLCFlag){//enter when TIM4 interrupts
-		  TLC_Update();//renew PWM
+		  g_TLCFlag = 0;//disable TLC Update
 
-	  if(g_imain > 2 ) //only enables RGB
-		  g_imain = 0;
+
+
+//	  if(g_imain > 2 ) //only enables RGB
+//		  g_imain = 0;
 
 //	  g_imain ++;
 
 //	 FillArray(g_imain,FABITEST);
 //	  FillArray(BLUE,LINE);
-		  FillArray(BLUE,LETTERo);
+//		  FillArray(BLUE,LETTERo);
 //	  FillArray(BLUE,LETTERS);
 //	  FillArray(BLUE,MATITEST);
 //	  FillArray(BLUE,BMWLOGO);
-		  g_TLCFlag = 0;//disable TLC Update
+//	  FillArray(BLUE,LETTERBIGo);
+	  FillArray(BLUE,BMWLOGOALT);
+
+
+	  TLC_Update();//renew PWM
 	  }
 
   }
@@ -351,16 +357,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 	if(htim->Instance== TIM4)
 	{
-		if(g_MotorSync<= 5 )//wait 5" before turning leds on
-			g_MotorSync++;
-		else
-		{
+//		if(g_MotorSync<= 5 )//wait 5" before turning leds on
+//			g_MotorSync++;
+//		else
+//		{
 			g_TLCFlag = 1;//enable TLC Update
 			g_degreeCount++;
 
-			if (g_degreeCount>=360)//reset val, used only for testing
-				g_degreeCount = 0;
-		}
+//			if (g_degreeCount>=360)//reset val, used only for testing
+//				g_degreeCount = 0;
+//		}
 	}
 
 }
@@ -368,19 +374,27 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 
- static uint16_t newPeriod = FALSE; //stores timertick, LoopCounter is used to count 'x' amount of loops to allow the motor to stabilize
+ static uint16_t newPeriod = FALSE,vueltas = 0; //stores timertick, LoopCounter is used to count 'x' amount of loops to allow the motor to stabilize
 
 
   if(GPIO_Pin == Hall_sensor_Pin) // hall sensor's pin
   {
-	  g_prevTime = g_curTime;
 	  HAL_GPIO_TogglePin(Board_Led_GPIO_Port, Board_Led_Pin);//Switch on/off board pin
+	  if(vueltas==Nvueltas-1)
+	  {
+		  g_prevTime = g_curTime;
+		  /*
+		   * 1 way of acquiring period of each turn
+		   */
+		  g_curTime = HAL_GetTick(); //Provides a tick value in millisecond
+		  g_tDelay = abs(g_curTime - g_prevTime);//abs guarantees that there is no issues related to the sign
+  		  __HAL_TIM_SET_AUTORELOAD(&htim4,g_tDelay*200/(Nvueltas*35));//1"*180°*time1°. For the time being this will only be done once
+  		vueltas = 0;
 
-	  /*
-	   * 1 way of acquiring period of each turn
-	   */
-	  g_curTime = HAL_GetTick(); //Provides a tick value in millisecond
-	  g_tDelay = abs(g_curTime - g_prevTime);//abs guarantees that there is no issues related to the sign
+	  }
+	  else
+		  vueltas++;
+
 
 	  /*
 	   * time it takes to do 1° = 360/g_tDelay;
@@ -395,7 +409,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 //	  	  if(g_MotorSync >= 5 && newPeriod == FALSE) //this will update TIM4's period only once
 //	  	  {
 //	  		  __HAL_TIM_SET_AUTORELOAD(&htim4,__HAL_TIM_GET_AUTORELOAD(&htim4)*180*360/g_tDelay);//1"*180°*time1°. For the time being this will only be done once
-	  		  __HAL_TIM_SET_AUTORELOAD(&htim4,g_tDelay*5714/1000);//1"*180°*time1°. For the time being this will only be done once
 
 //	  		  newPeriod = TRUE;
 //	  	  }

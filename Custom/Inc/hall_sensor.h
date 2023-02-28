@@ -10,5 +10,6 @@
 
 #define TRUE 1
 #define FALSE 0
+#define Nvueltas 10
 
 #endif /* INC_HALL_SENSOR_H_ */

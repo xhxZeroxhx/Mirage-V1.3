@@ -42,6 +42,9 @@
 #define LETTERS 3
 #define MATITEST 4
 #define BMWLOGO 5
+#define LETTERBIGo 6
+#define BMWLOGOALT 7
+
 
 /* USER CODE END Includes */
 
