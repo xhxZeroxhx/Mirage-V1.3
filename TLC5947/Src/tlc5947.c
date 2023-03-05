@@ -4,6 +4,9 @@
 /* Private user code ---------------------------------------------------------*/
 
 uint8_t g_LedsMatrix[1][TOTAL_CHANNELS]={}; // todo en 0, le pongo valores con FillArray, g_LedsMatrix indicates the led value per degree
+
+//uint8_t g_LedsMatrixTEST[TOTAL_CHANNELS][360]={}; // todo en 0, le pongo valores con FillArray, g_LedsMatrix indicates the led value per degree
+
 uint8_t g_spi_send[SPI_BYTE_AMOUNT]={},g_command =0;//g_command is used to indicate what to display with all the leds
 uint8_t letterO[TOTAL_LEDS][6]=
 {
@@ -258,7 +261,6 @@ void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 {
 	static uint8_t increment = 3,array_index = 0,letCol = 0,letIndex=0,matiTestIndex=0;
 	uint8_t letRow = 0;
-
 	switch(ledControl){
 
 	case 0:
@@ -359,6 +361,7 @@ void FillArray(uint8_t colorIntensity,uint8_t ledControl)
 				matiTestIndex = 0;
 				break;
 			}
+			break;
 
 		case 5:
 			//BMWLOGO

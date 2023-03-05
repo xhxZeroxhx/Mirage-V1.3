@@ -120,9 +120,17 @@ int main(void)
 
   HAL_GPIO_WritePin(Board_Led_GPIO_Port, Board_Led_Pin, GPIO_PIN_RESET);//Turn off board led
 
+  /*/
+   * Only use this 2 overwrites for Matitest
+   */
+  __HAL_TIM_SET_PRESCALER(&htim4,3599);//p.1040 - configure TIM4 so that it interrupts every 1/2"
+  __HAL_TIM_SET_AUTORELOAD(&htim4,999);//
+
 
 //  HAL_GPIO_WritePin(Board_Led_GPIO_Port,Board_Led_Pin,GPIO_PIN_RESET);//Turn off led
 
+//  FillArray(BLUE,MATITEST);
+//  	  __HAL_TIM_SET_PRESCALER(&htim4,35999);//p.1040 - configure TIM4 so that it interrupts every 1/2"
 
   /* USER CODE END 2 */
 
@@ -133,28 +141,24 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
-
-
-
 	  if(g_TLCFlag){//enter when TIM4 interrupts
 		  g_TLCFlag = 0;//disable TLC Update
 
-
-
 //	  if(g_imain > 2 ) //only enables RGB
 //		  g_imain = 0;
-
+//
 //	  g_imain ++;
 
-//	 FillArray(g_imain,FABITEST);
+	 FillArray(g_imain,FABITEST);
 //	  FillArray(BLUE,LINE);
-//		  FillArray(BLUE,LETTERo);
-//	  FillArray(BLUE,LETTERS);
+//	  FillArray(BLUE,LETTERo);
 //	  FillArray(BLUE,MATITEST);
+
+
+//	  FillArray(BLUE,LETTERS);
 //	  FillArray(BLUE,BMWLOGO);
 //	  FillArray(BLUE,LETTERBIGo);
-	  FillArray(BLUE,BMWLOGOALT);
+//	  FillArray(BLUE,BMWLOGOALT);
 
 
 	  TLC_Update();//renew PWM
@@ -357,16 +361,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 	if(htim->Instance== TIM4)
 	{
-//		if(g_MotorSync<= 5 )//wait 5" before turning leds on
-//			g_MotorSync++;
-//		else
-//		{
+
 			g_TLCFlag = 1;//enable TLC Update
 			g_degreeCount++;
 
-//			if (g_degreeCount>=360)//reset val, used only for testing
-//				g_degreeCount = 0;
-//		}
+			if (g_degreeCount>359)//prevents g_LedsMatrix from overflowing
+				g_degreeCount = 0;
+
 	}
 
 }
@@ -374,7 +375,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 
- static uint16_t newPeriod = FALSE,vueltas = 0; //stores timertick, LoopCounter is used to count 'x' amount of loops to allow the motor to stabilize
+ static vueltas = 0; //stores timertick, LoopCounter is used to count 'x' amount of loops to allow the motor to stabilize
 
 
   if(GPIO_Pin == Hall_sensor_Pin) // hall sensor's pin
@@ -388,30 +389,18 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		   */
 		  g_curTime = HAL_GetTick(); //Provides a tick value in millisecond
 		  g_tDelay = abs(g_curTime - g_prevTime);//abs guarantees that there is no issues related to the sign
-  		  __HAL_TIM_SET_AUTORELOAD(&htim4,g_tDelay*200/(Nvueltas*35));//1"*180°*time1°. For the time being this will only be done once
+  		  __HAL_TIM_SET_AUTORELOAD(&htim4,g_tDelay*200/(Nvueltas*35));//1"*180°*time1°. For the time being this will only be done once - p.1040
   		vueltas = 0;
 
 	  }
 	  else
 		  vueltas++;
 
-
-	  /*
-	   * time it takes to do 1° = 360/g_tDelay;
-	   * The hall sensor is at 270° and for testing the leds
-	   * i want a straight line at 90°, thus i have to wait (270-90)° = 180°
-	   */
-	  //for this to work i have to change the prescaler of timer 4 so that tim4 interrupts every 1ms
-	  g_degreeCount = 0;//indicates that a full spin has been made and thus degree count is reset to 0°
+//	  g_degreeCount = 0;//indicates that a full spin has been made and thus degree count is reset to 0°
 
 
 
-//	  	  if(g_MotorSync >= 5 && newPeriod == FALSE) //this will update TIM4's period only once
-//	  	  {
-//	  		  __HAL_TIM_SET_AUTORELOAD(&htim4,__HAL_TIM_GET_AUTORELOAD(&htim4)*180*360/g_tDelay);//1"*180°*time1°. For the time being this will only be done once
 
-//	  		  newPeriod = TRUE;
-//	  	  }
 
 	  if(g_imain > 2 ) //only enables RGB
 		  g_imain = 0;
